@@ -5,7 +5,7 @@ services:
     name: pollamundial
     runtime: python
     plan: free
-    branch: develop
+    branch: main
     buildCommand: "bash build.sh"
     startCommand: "gunicorn pollamundial.wsgi:application --bind 0.0.0.0:$PORT"
     envVars:
