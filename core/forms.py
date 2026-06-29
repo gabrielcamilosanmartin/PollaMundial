@@ -1,11 +1,11 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import BaseUserCreationForm
 
 User = get_user_model()
 
-# Campos editables en el CRUD de usuarios.
-USER_FIELDS = ("username", "first_name", "last_name", "email", "is_active", "is_staff")
+# Campos editables en el CRUD de usuarios (el email es el identificador).
+USER_FIELDS = ("email", "first_name", "last_name", "is_active", "is_staff")
 
 INPUT_CLASS = (
     "block w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm "
@@ -29,8 +29,8 @@ class TailwindFormMixin:
                 field.widget.attrs.setdefault("class", INPUT_CLASS)
 
 
-class UserCreateForm(TailwindFormMixin, UserCreationForm):
-    class Meta(UserCreationForm.Meta):
+class UserCreateForm(TailwindFormMixin, BaseUserCreationForm):
+    class Meta:
         model = User
         fields = USER_FIELDS
 

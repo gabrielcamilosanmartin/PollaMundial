@@ -19,9 +19,8 @@
     <table class="min-w-full divide-y divide-slate-200 text-sm">
         <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
             <tr>
-                <th class="px-4 py-3">Usuario</th>
-                <th class="px-4 py-3">Nombre</th>
                 <th class="px-4 py-3">Correo</th>
+                <th class="px-4 py-3">Nombre</th>
                 <th class="px-4 py-3 text-center">Activo</th>
                 <th class="px-4 py-3 text-center">Staff</th>
                 <th class="px-4 py-3 text-right">Acciones</th>
@@ -30,9 +29,8 @@
         <tbody class="divide-y divide-slate-100">
             {% for u in users %}
             <tr class="hover:bg-slate-50/60">
-                <td class="px-4 py-3 font-medium text-slate-900">{{ u.username }}</td>
+                <td class="px-4 py-3 font-medium text-slate-900">{{ u.email }}</td>
                 <td class="px-4 py-3 text-slate-600">{{ u.get_full_name|default:"—" }}</td>
-                <td class="px-4 py-3 text-slate-600">{{ u.email|default:"—" }}</td>
                 <td class="px-4 py-3 text-center">
                     {% if u.is_active %}
                     <span class="inline-flex rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">Sí</span>
@@ -57,7 +55,7 @@
             </tr>
             {% empty %}
             <tr>
-                <td colspan="6" class="px-4 py-10 text-center text-slate-500">
+                <td colspan="5" class="px-4 py-10 text-center text-slate-500">
                     No hay usuarios todavía.
                 </td>
             </tr>

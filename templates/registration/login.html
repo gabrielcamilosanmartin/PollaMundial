@@ -75,11 +75,11 @@
                 <!-- Usuario -->
                 <div>
                     <label for="{{ form.username.id_for_label }}" class="mb-1.5 block text-sm font-medium text-slate-700">
-                        {% trans "Username" %}
+                        {% trans "Email" %}
                     </label>
-                    <input type="text" name="{{ form.username.html_name }}" id="{{ form.username.id_for_label }}"
-                           value="{{ form.username.value|default:'' }}" autocomplete="username" required
-                           placeholder="{% trans 'your_username' %}"
+                    <input type="email" name="{{ form.username.html_name }}" id="{{ form.username.id_for_label }}"
+                           value="{{ form.username.value|default:'' }}" autocomplete="email" required
+                           placeholder="tu@correo.com"
                            class="block w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm
                                   text-slate-900 placeholder-slate-400 shadow-sm transition
                                   focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30 focus:outline-none">

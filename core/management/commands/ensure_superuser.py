@@ -3,11 +3,10 @@
 Pensado para ejecutarse en cada despliegue (p. ej. en Render), donde no hay
 acceso interactivo a `createsuperuser`. Lee:
 
-    DJANGO_SUPERUSER_USERNAME  (obligatorio)
+    DJANGO_SUPERUSER_EMAIL     (obligatorio, es el identificador de login)
     DJANGO_SUPERUSER_PASSWORD  (obligatorio)
-    DJANGO_SUPERUSER_EMAIL     (opcional)
 
-Si faltan usuario o contraseña, no hace nada (no falla). Si el usuario ya
+Si faltan email o contraseña, no hace nada (no falla). Si el usuario ya
 existe, tampoco hace nada. Así es seguro correrlo en cada build/deploy.
 """
 
@@ -23,26 +22,23 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         User = get_user_model()
 
-        username = os.environ.get("DJANGO_SUPERUSER_USERNAME")
+        email = os.environ.get("DJANGO_SUPERUSER_EMAIL")
         password = os.environ.get("DJANGO_SUPERUSER_PASSWORD")
-        email = os.environ.get("DJANGO_SUPERUSER_EMAIL", "")
 
-        if not username or not password:
+        if not email or not password:
             self.stdout.write(
-                "DJANGO_SUPERUSER_USERNAME/PASSWORD no definidos; se omite la "
+                "DJANGO_SUPERUSER_EMAIL/PASSWORD no definidos; se omite la "
                 "creación del superusuario."
             )
             return
 
-        if User.objects.filter(username=username).exists():
+        if User.objects.filter(email=email).exists():
             self.stdout.write(
-                f"El superusuario '{username}' ya existe; no se crea de nuevo."
+                f"El superusuario '{email}' ya existe; no se crea de nuevo."
             )
             return
 
-        User.objects.create_superuser(
-            username=username, email=email, password=password
-        )
+        User.objects.create_superuser(email=email, password=password)
         self.stdout.write(
-            self.style.SUCCESS(f"Superusuario '{username}' creado correctamente.")
+            self.style.SUCCESS(f"Superusuario '{email}' creado correctamente.")
         )

@@ -5,7 +5,7 @@
 
 {% block dashboard_content %}
 <h1 class="text-2xl font-bold tracking-tight text-slate-900">
-    {% blocktrans with username=user.username %}Hi, {{ username }}! 👋{% endblocktrans %}
+    {% blocktrans with username=user.first_name|default:user.email %}Hi, {{ username }}! 👋{% endblocktrans %}
 </h1>
 <p class="mt-2 text-slate-500">{% trans "You have signed in successfully. Your pool will go here." %}</p>
 {% endblock %}
