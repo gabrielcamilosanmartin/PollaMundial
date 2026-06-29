@@ -94,7 +94,7 @@
                         <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium text-slate-700">
                             {% trans "Password" %}
                         </label>
-                        <a href="#" class="text-xs font-medium text-emerald-600 hover:text-emerald-700">{% trans "Forgot it?" %}</a>
+                        <a href="{% url 'password_reset' %}" class="text-xs font-medium text-emerald-600 hover:text-emerald-700">{% trans "Forgot it?" %}</a>
                     </div>
                     <input type="password" name="{{ form.password.html_name }}" id="{{ form.password.id_for_label }}"
                            autocomplete="current-password" required placeholder="••••••••"

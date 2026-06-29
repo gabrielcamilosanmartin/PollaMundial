@@ -17,9 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from accounts.views import InitialPasswordChangeView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('i18n/', include('django.conf.urls.i18n')),
+    path(
+        'cambiar-contrasena-inicial/',
+        InitialPasswordChangeView.as_view(),
+        name='initial_password_change',
+    ),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('core.urls')),
 ]

@@ -10,6 +10,12 @@ class User(AbstractUser):
     username = None
     email = models.EmailField("correo electrónico", unique=True)
 
+    # Si es True, se obliga al usuario a definir su contraseña en el primer login.
+    # Se activa al crear usuarios desde el panel de administración.
+    must_change_password = models.BooleanField(
+        "debe cambiar la contraseña", default=False
+    )
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 

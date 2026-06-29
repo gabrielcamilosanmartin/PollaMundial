@@ -36,6 +36,14 @@ class UserCreateView(StaffRequiredMixin, CreateView):
     success_url = reverse_lazy("user_list")
     extra_context = {"title": "Crear usuario"}
 
+    def form_valid(self, form):
+        # Los usuarios creados por el admin deben definir su contraseña al
+        # iniciar sesión por primera vez.
+        response = super().form_valid(form)
+        self.object.must_change_password = True
+        self.object.save(update_fields=["must_change_password"])
+        return response
+
 
 class UserUpdateView(StaffRequiredMixin, UpdateView):
     model = User
