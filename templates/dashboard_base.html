@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block content %}
+<header class="border-b border-slate-200 bg-white">
+    <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
+        <div class="flex items-center gap-6">
+            <a href="{% url 'home' %}" class="flex items-center gap-3">
+                <img src="{% static 'img/worldcup-2026.png' %}" alt="FIFA World Cup 2026"
+                     class="h-10 w-auto object-contain">
+                <span class="font-semibold tracking-tight text-slate-900">Polla Mundial</span>
+            </a>
+
+            <!-- Menú principal -->
+            <nav class="hidden items-center gap-1 sm:flex">
+                {% if user.is_staff %}
+                <details class="group relative">
+                    <summary class="flex cursor-pointer list-none items-center gap-1 rounded-lg px-3 py-2 text-sm
+                                    font-medium text-slate-700 transition hover:bg-slate-100
+                                    [&::-webkit-details-marker]:hidden">
+                        Administrar
+                        <svg class="h-4 w-4 text-slate-400 transition group-open:rotate-180"
+                             viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                  d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.17l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+                    </summary>
+                    <div class="absolute left-0 z-20 mt-1 w-48 rounded-xl border border-slate-200 bg-white py-1 shadow-lg">
+                        <a href="{% url 'user_list' %}"
+                           class="block px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50">
+                            Usuarios
+                        </a>
+                    </div>
+                </details>
+                {% endif %}
+            </nav>
+        </div>
+
+        <div class="flex items-center gap-3">
+            {% include "partials/lang_switcher.html" %}
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit"
+                        class="rounded-lg border border-slate-300 px-3.5 py-2 text-sm font-medium text-slate-700
+                               transition hover:bg-slate-50">
+                    {% trans "Sign out" %}
+                </button>
+            </form>
+        </div>
+    </div>
+</header>
+
+<main class="mx-auto max-w-5xl px-6 py-12">
+    {% block dashboard_content %}{% endblock %}
+</main>
+{% endblock %}
