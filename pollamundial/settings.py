@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 
+import dj_database_url
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,6 +35,14 @@ ALLOWED_HOSTS = os.environ.get(
     'DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,0.0.0.0'
 ).split(',')
 
+# Render expone el host público del servicio en esta variable.
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+    # Necesario para que el login (POST) pase la verificación CSRF tras el proxy HTTPS.
+    CSRF_TRUSTED_ORIGINS = [f'https://{RENDER_EXTERNAL_HOSTNAME}']
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 # Application definition
 
@@ -48,6 +58,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -80,16 +91,23 @@ WSGI_APPLICATION = 'pollamundial.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB', 'pollamundial'),
-        'USER': os.environ.get('POSTGRES_USER', 'pollamundial'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'pollamundial'),
-        'HOST': os.environ.get('POSTGRES_HOST', 'db'),
-        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
+# En Render se inyecta DATABASE_URL (Postgres gestionado). En local (Docker
+# Compose) usamos las variables POSTGRES_* del archivo .env.
+if os.environ.get('DATABASE_URL'):
+    DATABASES = {
+        'default': dj_database_url.config(conn_max_age=600),
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('POSTGRES_DB', 'pollamundial'),
+            'USER': os.environ.get('POSTGRES_USER', 'pollamundial'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'pollamundial'),
+            'HOST': os.environ.get('POSTGRES_HOST', 'db'),
+            'PORT': os.environ.get('POSTGRES_PORT', '5432'),
+        }
+    }
 
 
 # Password validation
@@ -137,6 +155,24 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [BASE_DIR / 'static']
+
+# Carpeta donde collectstatic reúne los estáticos para producción (Render).
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# En producción (Render) WhiteNoise sirve los estáticos comprimidos y con hash.
+# En local (DEBUG) usamos el almacenamiento normal para no exigir el manifiesto.
+STORAGES = {
+    'default': {
+        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
+    },
+}
+if not DEBUG:
+    STORAGES['staticfiles']['BACKEND'] = (
+        'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    )
 
 # Autenticación / rutas de login
 LOGIN_URL = 'login'

@@ -1,0 +1,3 @@
+# Normaliza saltos de línea: los scripts shell SIEMPRE en LF (necesario en Linux/Render).
+*.sh text eol=lf
+build.sh text eol=lf
