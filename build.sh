@@ -9,3 +9,6 @@ python manage.py collectstatic --no-input
 
 # Aplica migraciones en la base de datos gestionada de Render.
 python manage.py migrate
+
+# Crea el superusuario desde variables de entorno si aún no existe (idempotente).
+python manage.py ensure_superuser
