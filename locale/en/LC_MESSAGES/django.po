@@ -1,0 +1,82 @@
+# English translations for the Polla Mundial project.
+# Copyright (C) 2026
+# This file is distributed under the same license as the PACKAGE package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PollaMundial 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-29 22:28+0000\n"
+"PO-Revision-Date: 2026-06-29 22:30+0000\n"
+"Last-Translator: \n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/core/home.html:4
+msgid "Home"
+msgstr "Home"
+
+#: templates/core/home.html:19
+msgid "Sign out"
+msgstr "Sign out"
+
+#: templates/core/home.html:27
+#, python-format
+msgid "Hi, %(username)s! 👋"
+msgstr "Hi, %(username)s! 👋"
+
+#: templates/core/home.html:29
+msgid "You have signed in successfully. Your pool will go here."
+msgstr "You have signed in successfully. Your pool will go here."
+
+#: templates/registration/login.html:4 templates/registration/login.html:116
+msgid "Sign in"
+msgstr "Sign in"
+
+#: templates/registration/login.html:30
+msgid "Live the World Cup<br>like never before."
+msgstr "Live the World Cup<br>like never before."
+
+#: templates/registration/login.html:33
+msgid "Yenko's got this."
+msgstr "Yenko's got this."
+
+#: templates/registration/login.html:57
+msgid "Welcome back"
+msgstr "Welcome back"
+
+#: templates/registration/login.html:58
+msgid "Sign in to continue with your pool."
+msgstr "Sign in to continue with your pool."
+
+#: templates/registration/login.html:73
+msgid "Username"
+msgstr "Username"
+
+#: templates/registration/login.html:77
+msgid "your_username"
+msgstr "your_username"
+
+#: templates/registration/login.html:90
+msgid "Password"
+msgstr "Password"
+
+#: templates/registration/login.html:92
+msgid "Forgot it?"
+msgstr "Forgot it?"
+
+#: templates/registration/login.html:108
+msgid "Keep me signed in"
+msgstr "Keep me signed in"
+
+#: templates/registration/login.html:121
+msgid "Don't have an account?"
+msgstr "Don't have an account?"
+
+#: templates/registration/login.html:122
+msgid "Sign up"
+msgstr "Sign up"

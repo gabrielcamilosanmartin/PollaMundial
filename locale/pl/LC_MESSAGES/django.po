@@ -1,0 +1,86 @@
+# Traducciones al polaco del proyecto Polla Mundial.
+# Modo "broma para Yenko": mensajes que lo molestan suavemente por no venir al matrimonio.
+# Copyright (C) 2026
+# This file is distributed under the same license as the PACKAGE package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PollaMundial 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-29 22:28+0000\n"
+"PO-Revision-Date: 2026-06-29 22:40+0000\n"
+"Last-Translator: \n"
+"Language-Team: Polski\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
+"|| n%100>14) ? 1 : 2);\n"
+
+#: templates/core/home.html:4
+msgid "Home"
+msgstr "Start (zdrajco)"
+
+#: templates/core/home.html:19
+msgid "Sign out"
+msgstr "Wyloguj się"
+
+#: templates/core/home.html:27
+#, python-format
+msgid "Hi, %(username)s! 👋"
+msgstr "Cześć, %(username)s, ty zdrajco! 👋 A na wesele jednak nie przyjedziesz?"
+
+#: templates/core/home.html:29
+msgid "You have signed in successfully. Your pool will go here."
+msgstr ""
+"Zalogowano. Szkoda, że z Polski nie ruszysz się na wesele kolegi, co? "
+"Zdrajca jeden."
+
+#: templates/registration/login.html:4 templates/registration/login.html:116
+msgid "Sign in"
+msgstr "Zaloguj się"
+
+#: templates/registration/login.html:30
+msgid "Live the World Cup<br>like never before."
+msgstr "Oglądaj mundial z Polski,<br>skoro na wesele i tak nie przyjedziesz."
+
+#: templates/registration/login.html:33
+msgid "Yenko's got this."
+msgstr "Yenko, zdrajco — wesele bez Ciebie to nie to samo."
+
+#: templates/registration/login.html:57
+msgid "Welcome back"
+msgstr "Witaj z powrotem, zdrajco"
+
+#: templates/registration/login.html:58
+msgid "Sign in to continue with your pool."
+msgstr "Zaloguj się i typuj mecze... bo na wesele i tak nie dotrzesz."
+
+#: templates/registration/login.html:73
+msgid "Username"
+msgstr "Nazwa użytkownika"
+
+#: templates/registration/login.html:77
+msgid "your_username"
+msgstr "twoja_nazwa"
+
+#: templates/registration/login.html:90
+msgid "Password"
+msgstr "Hasło"
+
+#: templates/registration/login.html:92
+msgid "Forgot it?"
+msgstr "Zapomniałeś? (jak o weselu)"
+
+#: templates/registration/login.html:108
+msgid "Keep me signed in"
+msgstr "Zapamiętaj mnie (w przeciwieństwie do Ciebie)"
+
+#: templates/registration/login.html:121
+msgid "Don't have an account?"
+msgstr "Nie masz konta?"
+
+#: templates/registration/login.html:122
+msgid "Sign up"
+msgstr "Zarejestruj się"
