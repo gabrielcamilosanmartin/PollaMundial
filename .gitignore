@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.Python
+build/
+dist/
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# Django
+*.log
+*.sqlite3
+/staticfiles/
+/media/
+
+# Variables de entorno (secretos)
+.env
+
+# IDE / editores
+.idea/
+.vscode/
+*.swp
+
+# Docker
+docker-compose.override.yml
