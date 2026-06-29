@@ -1,12 +1,12 @@
 # Traducciones al español del proyecto Polla Mundial.
 # Copyright (C) 2026
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PollaMundial 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-29 22:28+0000\n"
+"POT-Creation-Date: 2026-06-29 23:25+0000\n"
 "PO-Revision-Date: 2026-06-29 22:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: Español\n"
@@ -20,63 +20,65 @@ msgstr ""
 msgid "Home"
 msgstr "Inicio"
 
-#: templates/core/home.html:19
-msgid "Sign out"
-msgstr "Cerrar sesión"
-
-#: templates/core/home.html:27
+#: templates/core/home.html:8
 #, python-format
 msgid "Hi, %(username)s! 👋"
 msgstr "¡Hola, %(username)s! 👋"
 
-#: templates/core/home.html:29
+#: templates/core/home.html:10
 msgid "You have signed in successfully. Your pool will go here."
 msgstr "Has iniciado sesión correctamente. Aquí irá tu polla."
 
-#: templates/registration/login.html:4 templates/registration/login.html:116
+#: templates/dashboard_base.html:47
+msgid "Sign out"
+msgstr "Cerrar sesión"
+
+#: templates/registration/login.html:4 templates/registration/login.html:121
 msgid "Sign in"
 msgstr "Iniciar sesión"
 
-#: templates/registration/login.html:30
+#: templates/registration/login.html:35
 msgid "Live the World Cup<br>like never before."
 msgstr "Vive el mundial<br>como nunca antes."
 
-#: templates/registration/login.html:33
+#: templates/registration/login.html:38
 msgid "Yenko's got this."
 msgstr "Yenko se la come."
 
-#: templates/registration/login.html:57
+#: templates/registration/login.html:62
 msgid "Welcome back"
 msgstr "Bienvenido de nuevo"
 
-#: templates/registration/login.html:58
+#: templates/registration/login.html:63
 msgid "Sign in to continue with your pool."
 msgstr "Inicia sesión para continuar con tu polla."
 
-#: templates/registration/login.html:73
-msgid "Username"
-msgstr "Usuario"
+#: templates/registration/login.html:78
+msgid "Email"
+msgstr "Correo electrónico"
 
-#: templates/registration/login.html:77
-msgid "your_username"
-msgstr "tu_usuario"
-
-#: templates/registration/login.html:90
+#: templates/registration/login.html:95
 msgid "Password"
 msgstr "Contraseña"
 
-#: templates/registration/login.html:92
+#: templates/registration/login.html:97
 msgid "Forgot it?"
 msgstr "¿La olvidaste?"
 
-#: templates/registration/login.html:108
+#: templates/registration/login.html:113
 msgid "Keep me signed in"
 msgstr "Mantener sesión iniciada"
 
-#: templates/registration/login.html:121
+#: templates/registration/login.html:126
 msgid "Don't have an account?"
 msgstr "¿No tienes cuenta?"
 
-#: templates/registration/login.html:122
+#: templates/registration/login.html:127
 msgid "Sign up"
 msgstr "Regístrate"
+
+#~ msgid "Username"
+#~ msgstr "Usuario"
+
+#~ msgid "your_username"
+#~ msgstr "tu_usuario"

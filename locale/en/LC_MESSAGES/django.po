@@ -1,12 +1,12 @@
 # English translations for the Polla Mundial project.
 # Copyright (C) 2026
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PollaMundial 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-29 22:28+0000\n"
+"POT-Creation-Date: 2026-06-29 23:25+0000\n"
 "PO-Revision-Date: 2026-06-29 22:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -20,63 +20,65 @@ msgstr ""
 msgid "Home"
 msgstr "Home"
 
-#: templates/core/home.html:19
-msgid "Sign out"
-msgstr "Sign out"
-
-#: templates/core/home.html:27
+#: templates/core/home.html:8
 #, python-format
 msgid "Hi, %(username)s! 👋"
 msgstr "Hi, %(username)s! 👋"
 
-#: templates/core/home.html:29
+#: templates/core/home.html:10
 msgid "You have signed in successfully. Your pool will go here."
 msgstr "You have signed in successfully. Your pool will go here."
 
-#: templates/registration/login.html:4 templates/registration/login.html:116
+#: templates/dashboard_base.html:47
+msgid "Sign out"
+msgstr "Sign out"
+
+#: templates/registration/login.html:4 templates/registration/login.html:121
 msgid "Sign in"
 msgstr "Sign in"
 
-#: templates/registration/login.html:30
+#: templates/registration/login.html:35
 msgid "Live the World Cup<br>like never before."
 msgstr "Live the World Cup<br>like never before."
 
-#: templates/registration/login.html:33
+#: templates/registration/login.html:38
 msgid "Yenko's got this."
 msgstr "Yenko's got this."
 
-#: templates/registration/login.html:57
+#: templates/registration/login.html:62
 msgid "Welcome back"
 msgstr "Welcome back"
 
-#: templates/registration/login.html:58
+#: templates/registration/login.html:63
 msgid "Sign in to continue with your pool."
 msgstr "Sign in to continue with your pool."
 
-#: templates/registration/login.html:73
-msgid "Username"
-msgstr "Username"
+#: templates/registration/login.html:78
+msgid "Email"
+msgstr "Email"
 
-#: templates/registration/login.html:77
-msgid "your_username"
-msgstr "your_username"
-
-#: templates/registration/login.html:90
+#: templates/registration/login.html:95
 msgid "Password"
 msgstr "Password"
 
-#: templates/registration/login.html:92
+#: templates/registration/login.html:97
 msgid "Forgot it?"
 msgstr "Forgot it?"
 
-#: templates/registration/login.html:108
+#: templates/registration/login.html:113
 msgid "Keep me signed in"
 msgstr "Keep me signed in"
 
-#: templates/registration/login.html:121
+#: templates/registration/login.html:126
 msgid "Don't have an account?"
 msgstr "Don't have an account?"
 
-#: templates/registration/login.html:122
+#: templates/registration/login.html:127
 msgid "Sign up"
 msgstr "Sign up"
+
+#~ msgid "Username"
+#~ msgstr "Username"
+
+#~ msgid "your_username"
+#~ msgstr "your_username"

@@ -1,0 +1,31 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}Eliminar usuario · Polla Mundial{% endblock %}
+
+{% block dashboard_content %}
+<div class="mx-auto max-w-lg">
+    <h1 class="text-2xl font-bold tracking-tight text-slate-900">Eliminar usuario</h1>
+
+    <div class="mt-6 rounded-xl border border-red-200 bg-red-50 p-6">
+        <p class="text-sm text-red-800">
+            ¿Seguro que deseas eliminar al usuario
+            <strong class="font-semibold">{{ object.email }}</strong>?
+            Esta acción no se puede deshacer.
+        </p>
+    </div>
+
+    <form method="post" class="mt-6 flex items-center justify-end gap-3">
+        {% csrf_token %}
+        <a href="{% url 'user_list' %}"
+           class="rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700
+                  transition hover:bg-slate-50">
+            Cancelar
+        </a>
+        <button type="submit"
+                class="rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm
+                       transition hover:bg-red-700">
+            Sí, eliminar
+        </button>
+    </form>
+</div>
+{% endblock %}
