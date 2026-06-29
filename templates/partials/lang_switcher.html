@@ -1,0 +1,22 @@
+{% load i18n %}
+{% get_current_language as CURRENT_LANG %}
+<form action="{% url 'set_language' %}" method="post"
+      class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white/90 p-1 shadow-sm backdrop-blur">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.path }}">
+    <button type="submit" name="language" value="es" title="Español"
+            class="rounded-full px-3 py-1 text-sm font-medium transition
+                   {% if CURRENT_LANG == 'es' %}bg-emerald-600 text-white shadow-sm{% else %}text-slate-600 hover:bg-slate-100{% endif %}">
+        ES
+    </button>
+    <button type="submit" name="language" value="en" title="English"
+            class="rounded-full px-3 py-1 text-sm font-medium transition
+                   {% if CURRENT_LANG == 'en' %}bg-emerald-600 text-white shadow-sm{% else %}text-slate-600 hover:bg-slate-100{% endif %}">
+        EN
+    </button>
+    <button type="submit" name="language" value="pl" title="Polski"
+            class="rounded-full px-3 py-1 text-sm font-medium transition
+                   {% if CURRENT_LANG == 'pl' %}bg-emerald-600 text-white shadow-sm{% else %}text-slate-600 hover:bg-slate-100{% endif %}">
+        PL
+    </button>
+</form>

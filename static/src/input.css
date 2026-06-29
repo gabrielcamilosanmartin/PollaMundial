@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+/* Le indicamos a Tailwind v4 dónde buscar clases (plantillas Django) */
+@source "../../templates/**/*.html";
+@source "../../**/templates/**/*.html";

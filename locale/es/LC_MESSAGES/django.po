@@ -1,0 +1,82 @@
+# Traducciones al español del proyecto Polla Mundial.
+# Copyright (C) 2026
+# This file is distributed under the same license as the PACKAGE package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PollaMundial 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-29 22:28+0000\n"
+"PO-Revision-Date: 2026-06-29 22:30+0000\n"
+"Last-Translator: \n"
+"Language-Team: Español\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/core/home.html:4
+msgid "Home"
+msgstr "Inicio"
+
+#: templates/core/home.html:19
+msgid "Sign out"
+msgstr "Cerrar sesión"
+
+#: templates/core/home.html:27
+#, python-format
+msgid "Hi, %(username)s! 👋"
+msgstr "¡Hola, %(username)s! 👋"
+
+#: templates/core/home.html:29
+msgid "You have signed in successfully. Your pool will go here."
+msgstr "Has iniciado sesión correctamente. Aquí irá tu polla."
+
+#: templates/registration/login.html:4 templates/registration/login.html:116
+msgid "Sign in"
+msgstr "Iniciar sesión"
+
+#: templates/registration/login.html:30
+msgid "Live the World Cup<br>like never before."
+msgstr "Vive el mundial<br>como nunca antes."
+
+#: templates/registration/login.html:33
+msgid "Yenko's got this."
+msgstr "Yenko se la come."
+
+#: templates/registration/login.html:57
+msgid "Welcome back"
+msgstr "Bienvenido de nuevo"
+
+#: templates/registration/login.html:58
+msgid "Sign in to continue with your pool."
+msgstr "Inicia sesión para continuar con tu polla."
+
+#: templates/registration/login.html:73
+msgid "Username"
+msgstr "Usuario"
+
+#: templates/registration/login.html:77
+msgid "your_username"
+msgstr "tu_usuario"
+
+#: templates/registration/login.html:90
+msgid "Password"
+msgstr "Contraseña"
+
+#: templates/registration/login.html:92
+msgid "Forgot it?"
+msgstr "¿La olvidaste?"
+
+#: templates/registration/login.html:108
+msgid "Keep me signed in"
+msgstr "Mantener sesión iniciada"
+
+#: templates/registration/login.html:121
+msgid "Don't have an account?"
+msgstr "¿No tienes cuenta?"
+
+#: templates/registration/login.html:122
+msgid "Sign up"
+msgstr "Regístrate"

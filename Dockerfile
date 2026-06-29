@@ -8,8 +8,13 @@ WORKDIR /app
 
 # Dependencias del sistema (psycopg[binary] trae libpq, esto cubre compilaciones extra)
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libpq5 \
+    && apt-get install -y --no-install-recommends libpq5 curl gettext \
     && rm -rf /var/lib/apt/lists/*
+
+# Tailwind CSS CLI standalone (sin necesidad de Node)
+RUN curl -fsSL -o /usr/local/bin/tailwindcss \
+        https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64 \
+    && chmod +x /usr/local/bin/tailwindcss
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
