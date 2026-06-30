@@ -1,10 +1,12 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect, render
+from django.db.models import Count
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import ListView, TemplateView
 
+from common.mixins import StaffRequiredMixin
 from matches.models import Match
 from matches.services import update_results_from_api
 
@@ -148,3 +150,72 @@ class ResultsView(LoginRequiredMixin, TemplateView):
             {"name": _participant_name(u), "total": totals[u.id]} for u in leaderboard
         ]
         return context
+
+
+# --- Administración de predicciones (solo staff) ---
+
+
+class PredictionAdminListView(StaffRequiredMixin, ListView):
+    """Lista de partidos para gestionar las predicciones de cada uno."""
+
+    model = Match
+    template_name = "predictions/admin_list.html"
+    context_object_name = "matches"
+
+    def get_queryset(self):
+        return (
+            Match.objects.select_related("team_1", "team_2")
+            .annotate(num_preds=Count("predictions"))
+            .order_by("date")
+        )
+
+
+class PredictionMatchEditView(StaffRequiredMixin, View):
+    """Edita/añade las predicciones de TODOS los participantes para un partido.
+
+    Pensado para cargar manualmente (backfill) las predicciones que llegaron por
+    WhatsApp antes de existir la app, incluso para partidos ya cerrados.
+    """
+
+    template_name = "predictions/admin_match.html"
+
+    def get(self, request, pk, *args, **kwargs):
+        match = get_object_or_404(
+            Match.objects.select_related("team_1", "team_2"), pk=pk
+        )
+        preds = {p.user_id: p for p in Prediction.objects.filter(match=match)}
+        rows = [
+            {
+                "user": u,
+                "name": _participant_name(u),
+                "prediction": preds.get(u.id),
+            }
+            for u in User.objects.order_by("first_name", "email")
+        ]
+        return render(request, self.template_name, {"match": match, "rows": rows})
+
+    def post(self, request, pk, *args, **kwargs):
+        match = get_object_or_404(Match, pk=pk)
+        for user in User.objects.all():
+            g1 = request.POST.get(f"goals_team_1_{user.id}", "").strip()
+            g2 = request.POST.get(f"goals_team_2_{user.id}", "").strip()
+
+            if g1 == "" and g2 == "":
+                # Ambos vacíos: si existía una predicción, se elimina.
+                Prediction.objects.filter(user=user, match=match).delete()
+                continue
+            if g1 == "" or g2 == "":
+                continue  # incompleto, se ignora
+            try:
+                g1, g2 = int(g1), int(g2)
+            except ValueError:
+                continue
+            if g1 < 0 or g2 < 0:
+                continue
+
+            Prediction.objects.update_or_create(
+                user=user,
+                match=match,
+                defaults={"goals_team_1": g1, "goals_team_2": g2},
+            )
+        return redirect(reverse("prediction_admin_list") + "?ok=1")
