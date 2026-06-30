@@ -59,6 +59,17 @@ class Match(models.Model):
         return self.penalties_team_1 is not None and self.penalties_team_2 is not None
 
     @property
+    def penalty_winner(self):
+        """Ganador de la tanda de penales: 'team_1', 'team_2' o None."""
+        if not self.went_to_penalties:
+            return None
+        if self.penalties_team_1 > self.penalties_team_2:
+            return "team_1"
+        if self.penalties_team_2 > self.penalties_team_1:
+            return "team_2"
+        return None
+
+    @property
     def result_display(self):
         """Resultado legible, con la tanda de penales si la hubo."""
         if not self.has_result:

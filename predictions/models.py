@@ -39,7 +39,14 @@ class Prediction(models.Model):
 
     @property
     def points(self):
-        """3 puntos si acierta el resultado exacto, 1 si acierta el ganador."""
+        """Puntaje del pronóstico:
+
+        - 3 puntos si acierta el resultado exacto del partido.
+        - 1 punto si acierta el ganador (o empate) de los 90'.
+        - Si el partido se definió en penales, también 1 punto si acertó al
+          ganador de la tanda de penales.
+        - 0 puntos en caso contrario.
+        """
         match = self.match
         if not match.has_result:
             return 0
@@ -49,5 +56,7 @@ class Prediction(models.Model):
         ):
             return 3
         if self.outcome == match.outcome:
+            return 1
+        if match.went_to_penalties and self.outcome == match.penalty_winner:
             return 1
         return 0
