@@ -8,11 +8,18 @@
         <h1 class="text-2xl font-bold tracking-tight text-slate-900">Partidos</h1>
         <p class="mt-1 text-sm text-slate-500">Gestiona los partidos del sistema.</p>
     </div>
-    <a href="{% url 'match_create' %}"
-       class="rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm
-              transition hover:bg-emerald-700">
-        + Nuevo Partido
-    </a>
+    <div class="flex items-center gap-3">
+        <button id="sync-btn" type="button"
+                class="rounded-lg border border-emerald-600 px-4 py-2.5 text-sm font-semibold text-emerald-700
+                       transition hover:bg-emerald-50">
+            Sincronizar con API
+        </button>
+        <a href="{% url 'match_create' %}"
+           class="rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm
+                  transition hover:bg-emerald-700">
+            + Nuevo Partido
+        </a>
+    </div>
 </div>
 
 <div class="mt-8 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
@@ -55,4 +62,101 @@
         </tbody>
     </table>
 </div>
+
+<!-- Modal de sincronización -->
+<div id="sync-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/50 px-4">
+    <div class="w-full max-w-2xl rounded-2xl bg-white shadow-xl">
+        <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+            <h2 class="text-lg font-semibold text-slate-900">Sincronizar con la API</h2>
+            <button type="button" data-sync-close
+                    class="rounded-lg p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600">
+                ✕
+            </button>
+        </div>
+        <div id="sync-body" class="px-6 py-5"></div>
+        <div class="flex items-center justify-end gap-3 border-t border-slate-200 px-6 py-4">
+            <button type="button" data-sync-close
+                    class="rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700
+                           transition hover:bg-slate-50">
+                Cancelar
+            </button>
+            <button id="sync-confirm" type="button" disabled
+                    class="rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm
+                           transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50">
+                Aceptar y sincronizar
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    const url = "{% url 'match_sync' %}";
+    const csrftoken = "{{ csrf_token }}";
+    const btn = document.getElementById("sync-btn");
+    const modal = document.getElementById("sync-modal");
+    const body = document.getElementById("sync-body");
+    const confirmBtn = document.getElementById("sync-confirm");
+    let hasNew = false;
+
+    const esc = (s) => String(s).replace(/[&<>"]/g, (c) =>
+        ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    const open = () => { modal.classList.remove("hidden"); modal.classList.add("flex"); };
+    const close = () => { modal.classList.add("hidden"); modal.classList.remove("flex"); };
+
+    btn.addEventListener("click", async () => {
+        hasNew = false;
+        confirmBtn.disabled = true;
+        body.innerHTML = '<p class="text-sm text-slate-500">Consultando la API…</p>';
+        open();
+        try {
+            const r = await fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" } });
+            const data = await r.json();
+            if (!r.ok) throw new Error(data.error || "Error inesperado");
+            if (data.count === 0) {
+                body.innerHTML = '<p class="text-sm text-slate-500">No hay partidos nuevos. Todo está sincronizado. ✅</p>';
+                return;
+            }
+            hasNew = true;
+            confirmBtn.disabled = false;
+            const rows = data.matches.map((m) =>
+                `<tr class="border-t border-slate-100">
+                    <td class="py-1.5 pr-3 font-medium text-slate-800">${esc(m.team_1)} vs ${esc(m.team_2)}</td>
+                    <td class="py-1.5 pr-3 text-slate-500">${esc(m.stage)}</td>
+                    <td class="py-1.5 text-slate-500">${esc(m.date)}</td>
+                </tr>`).join("");
+            body.innerHTML =
+                `<p class="mb-3 text-sm text-slate-600">Se agregarán <strong>${data.count}</strong> partidos nuevos:</p>
+                 <div class="max-h-80 overflow-y-auto rounded-lg border border-slate-200">
+                    <table class="w-full text-sm">
+                        <thead class="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
+                            <tr><th class="px-3 py-2">Partido</th><th class="px-3 py-2">Etapa</th><th class="px-3 py-2">Fecha</th></tr>
+                        </thead>
+                        <tbody class="px-3">${rows}</tbody>
+                    </table>
+                 </div>`;
+        } catch (e) {
+            body.innerHTML = `<p class="text-sm text-red-600">${esc(e.message)}</p>`;
+        }
+    });
+
+    confirmBtn.addEventListener("click", async () => {
+        if (!hasNew) return;
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = "Sincronizando…";
+        try {
+            const r = await fetch(url, { method: "POST", headers: { "X-CSRFToken": csrftoken } });
+            const data = await r.json();
+            if (!r.ok) throw new Error(data.error || "Error inesperado");
+            window.location.reload();
+        } catch (e) {
+            body.innerHTML = `<p class="text-sm text-red-600">Error al sincronizar: ${esc(e.message)}</p>`;
+            confirmBtn.textContent = "Aceptar y sincronizar";
+        }
+    });
+
+    document.querySelectorAll("[data-sync-close]").forEach((b) => b.addEventListener("click", close));
+    modal.addEventListener("click", (e) => { if (e.target === modal) close(); });
+})();
+</script>
 {% endblock %}
