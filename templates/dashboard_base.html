@@ -3,7 +3,7 @@
 
 {% block content %}
 <header class="border-b border-slate-200 bg-white">
-    <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
+    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
         <div class="flex items-center gap-6">
             <a href="{% url 'home' %}" class="flex items-center gap-3">
                 <img src="{% static 'img/worldcup-2026.png' %}" alt="FIFA World Cup 2026"
@@ -11,7 +11,7 @@
                 <span class="font-semibold tracking-tight text-slate-900">Polla Mundial</span>
             </a>
 
-            <!-- Menú principal -->
+            <!-- Menú principal (escritorio) -->
             <nav class="hidden items-center gap-1 sm:flex">
                 <a href="{% url 'home' %}"
                    class="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100">
@@ -40,28 +40,69 @@
                     </summary>
                     <div class="absolute left-0 z-20 mt-1 w-48 rounded-xl border border-slate-200 bg-white py-1 shadow-lg">
                         <a href="{% url 'user_list' %}"
-                           class="block px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50">
-                            Usuarios
-                        </a>
+                           class="block px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50">Usuarios</a>
                         <a href="{% url 'country_list' %}"
-                           class="block px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50">
-                            Paises
-                        </a>
+                           class="block px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50">Paises</a>
                         <a href="{% url 'match_list' %}"
-                           class="block px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50">
-                            Partidos
-                        </a>
+                           class="block px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50">Partidos</a>
                         <a href="{% url 'prediction_admin_list' %}"
-                           class="block px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50">
-                            Predicciones
-                        </a>
+                           class="block px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50">Predicciones</a>
                     </div>
                 </details>
                 {% endif %}
             </nav>
         </div>
 
-        <div class="flex items-center gap-3">
+        <!-- Lado derecho (escritorio) -->
+        <div class="hidden items-center gap-3 sm:flex">
+            {% include "partials/lang_switcher.html" %}
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit"
+                        class="rounded-lg border border-slate-300 px-3.5 py-2 text-sm font-medium text-slate-700
+                               transition hover:bg-slate-50">
+                    {% trans "Sign out" %}
+                </button>
+            </form>
+        </div>
+
+        <!-- Botón hamburguesa (móvil) -->
+        <button id="nav-toggle" type="button" aria-label="Menú"
+                class="rounded-lg p-2 text-slate-600 transition hover:bg-slate-100 sm:hidden">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Menú desplegable (móvil) -->
+    <div id="mobile-menu" class="hidden border-t border-slate-200 px-4 py-3 sm:hidden">
+        <nav class="flex flex-col gap-1">
+            <a href="{% url 'home' %}"
+               class="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100">
+                {% trans "Matches" %}
+            </a>
+            <a href="{% url 'my_predictions' %}"
+               class="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100">
+                {% trans "My predictions" %}
+            </a>
+            <a href="{% url 'results' %}"
+               class="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100">
+                {% trans "Results" %}
+            </a>
+            {% if user.is_staff %}
+            <p class="px-3 pb-1 pt-3 text-xs font-semibold uppercase tracking-wide text-slate-400">Administrar</p>
+            <a href="{% url 'user_list' %}"
+               class="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100">Usuarios</a>
+            <a href="{% url 'country_list' %}"
+               class="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100">Paises</a>
+            <a href="{% url 'match_list' %}"
+               class="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100">Partidos</a>
+            <a href="{% url 'prediction_admin_list' %}"
+               class="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100">Predicciones</a>
+            {% endif %}
+        </nav>
+        <div class="mt-3 flex items-center justify-between border-t border-slate-100 pt-3">
             {% include "partials/lang_switcher.html" %}
             <form method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
@@ -78,4 +119,16 @@
 <main class="mx-auto max-w-6xl px-6 py-12">
     {% block dashboard_content %}{% endblock %}
 </main>
+
+<script>
+    (function () {
+        var toggle = document.getElementById("nav-toggle");
+        var menu = document.getElementById("mobile-menu");
+        if (toggle && menu) {
+            toggle.addEventListener("click", function () {
+                menu.classList.toggle("hidden");
+            });
+        }
+    })();
+</script>
 {% endblock %}

@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils import timezone
 from django.views import View
 from django.views.generic import ListView, TemplateView
 
@@ -25,8 +26,11 @@ class HomeView(LoginRequiredMixin, View):
     template_name = "predictions/home.html"
 
     def _matches_with_predictions(self, user):
+        # Solo partidos que aún no han comenzado (los cerrados no se muestran).
         matches = list(
-            Match.objects.select_related("team_1", "team_2").order_by("date")
+            Match.objects.filter(date__gt=timezone.now())
+            .select_related("team_1", "team_2")
+            .order_by("date")
         )
         mis_pred = {
             p.match_id: p

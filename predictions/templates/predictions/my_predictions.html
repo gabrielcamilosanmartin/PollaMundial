@@ -27,7 +27,7 @@
                     {{ row.match.team_1.name }} vs {{ row.match.team_2.name }}
                 </td>
                 <td class="px-4 py-3 text-center font-semibold text-slate-800">
-                    {{ row.match.goals_team_1 }} : {{ row.match.goals_team_2 }}
+                    {{ row.match.result_display }}
                 </td>
                 {% for pred in row.cells %}
                 <td class="px-4 py-3 text-center text-slate-600">

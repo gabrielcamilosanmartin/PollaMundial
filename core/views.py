@@ -1,5 +1,11 @@
 from django.contrib.auth import get_user_model
-from django.urls import reverse_lazy
+from django.contrib.auth.tokens import default_token_generator
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.urls import reverse, reverse_lazy
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.views import View
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 from common.mixins import StaffRequiredMixin
@@ -44,3 +50,22 @@ class UserDeleteView(StaffRequiredMixin, DeleteView):
     model = User
     template_name = "core/user_confirm_delete.html"
     success_url = reverse_lazy("user_list")
+
+
+class UserResetLinkView(StaffRequiredMixin, View):
+    """Genera el enlace de restablecer contraseña de un usuario (sin enviar correo).
+
+    Devuelve el mismo enlace que iría en el email, para copiarlo y compartirlo
+    manualmente. El enlace caduca a los 30 minutos y es de un solo uso.
+    """
+
+    def get(self, request, pk, *args, **kwargs):
+        user = get_object_or_404(User, pk=pk)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        token = default_token_generator.make_token(user)
+        path = reverse(
+            "password_reset_confirm", kwargs={"uidb64": uid, "token": token}
+        )
+        return JsonResponse(
+            {"url": request.build_absolute_uri(path), "email": user.email}
+        )

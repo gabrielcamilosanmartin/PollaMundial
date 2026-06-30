@@ -15,7 +15,7 @@
     </a>
 </div>
 
-<div class="mt-8 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+<div class="mt-8 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
     <table class="min-w-full divide-y divide-slate-200 text-sm">
         <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
             <tr>
@@ -45,7 +45,11 @@
                     <span class="text-slate-400">—</span>
                     {% endif %}
                 </td>
-                <td class="px-4 py-3 text-right">
+                <td class="px-4 py-3 text-right whitespace-nowrap">
+                    <button type="button" data-reset-url="{% url 'user_reset_link' u.pk %}"
+                            data-email="{{ u.email }}"
+                            class="font-medium text-indigo-600 hover:text-indigo-700">Reiniciar contraseña</button>
+                    <span class="px-1.5 text-slate-300">|</span>
                     <a href="{% url 'user_update' u.pk %}"
                        class="font-medium text-emerald-600 hover:text-emerald-700">Editar</a>
                     <span class="px-1.5 text-slate-300">|</span>
@@ -63,4 +67,76 @@
         </tbody>
     </table>
 </div>
+
+<!-- Modal del enlace de restablecimiento -->
+<div id="reset-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/50 px-4">
+    <div class="w-full max-w-lg rounded-2xl bg-white shadow-xl">
+        <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+            <h2 class="text-lg font-semibold text-slate-900">Enlace para restablecer contraseña</h2>
+            <button type="button" data-reset-close
+                    class="rounded-lg p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600">✕</button>
+        </div>
+        <div class="px-6 py-5">
+            <p class="text-sm text-slate-500">
+                Comparte este enlace con <strong id="reset-email" class="text-slate-700"></strong>.
+                Caduca en 30 minutos y solo se puede usar una vez.
+            </p>
+            <div class="mt-4 flex items-center gap-2">
+                <input id="reset-url" type="text" readonly
+                       class="block w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                <button id="reset-copy" type="button"
+                        class="shrink-0 rounded-lg bg-emerald-600 px-3.5 py-2 text-sm font-semibold text-white
+                               transition hover:bg-emerald-700">
+                    Copiar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    const modal = document.getElementById("reset-modal");
+    const urlInput = document.getElementById("reset-url");
+    const emailEl = document.getElementById("reset-email");
+    const copyBtn = document.getElementById("reset-copy");
+
+    const open = () => { modal.classList.remove("hidden"); modal.classList.add("flex"); };
+    const close = () => { modal.classList.add("hidden"); modal.classList.remove("flex"); };
+
+    document.querySelectorAll("[data-reset-url]").forEach((btn) => {
+        btn.addEventListener("click", async () => {
+            copyBtn.textContent = "Copiar";
+            urlInput.value = "Generando…";
+            emailEl.textContent = btn.getAttribute("data-email") || "";
+            open();
+            try {
+                const r = await fetch(btn.getAttribute("data-reset-url"), {
+                    headers: { "X-Requested-With": "XMLHttpRequest" },
+                });
+                const data = await r.json();
+                if (!r.ok) throw new Error(data.error || "Error");
+                urlInput.value = data.url;
+                emailEl.textContent = data.email;
+            } catch (e) {
+                urlInput.value = "No se pudo generar el enlace: " + e.message;
+            }
+        });
+    });
+
+    copyBtn.addEventListener("click", async () => {
+        urlInput.select();
+        try {
+            await navigator.clipboard.writeText(urlInput.value);
+        } catch (e) {
+            document.execCommand("copy");
+        }
+        copyBtn.textContent = "¡Copiado!";
+        setTimeout(() => { copyBtn.textContent = "Copiar"; }, 1500);
+    });
+
+    document.querySelectorAll("[data-reset-close]").forEach((b) => b.addEventListener("click", close));
+    modal.addEventListener("click", (e) => { if (e.target === modal) close(); });
+})();
+</script>
 {% endblock %}

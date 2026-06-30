@@ -42,7 +42,7 @@
                 <td class="px-4 py-3 text-slate-600">{{ match.date|date:'d/m/Y H:i' }}</td>
                 <td class="px-4 py-3 text-slate-600">{{ match.stage }}</td>
                 <td class="px-4 py-3 text-center font-medium text-slate-700">
-                    {{ match.goals_team_1|default_if_none:'—' }} : {{ match.goals_team_2|default_if_none:'—' }}
+                    {{ match.result_display }}
                 </td>
                 <td class="px-4 py-3 text-right">
                     <a href="{% url 'match_update' match.pk %}"
