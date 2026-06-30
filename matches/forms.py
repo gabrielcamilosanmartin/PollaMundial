@@ -10,10 +10,8 @@ MATCH_FIELDS = (
     "date",
     "team_1",
     "team_2",
-    "is_draw",
-    "winner",
-    "result",
-    "is_finished",
+    "goals_team_1",
+    "goals_team_2",
 )
 
 

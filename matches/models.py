@@ -1,4 +1,3 @@
-from django.core.exceptions import ValidationError
 from django.db import models
 
 
@@ -15,38 +14,17 @@ class Match(models.Model):
         "countries.Country", on_delete=models.CASCADE, related_name="team_2"
     )
 
-    is_draw = models.BooleanField("empate", default=False)
-    winner = models.ForeignKey(
-        "countries.Country",
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        related_name="winner",
+    goals_team_1 = models.PositiveSmallIntegerField(
+        "goles del equipo 1", null=True, blank=True
     )
-    result = models.CharField(
-        "resultado del partido", max_length=10, null=True, blank=True
+    goals_team_2 = models.PositiveSmallIntegerField(
+        "goles del equipo 2", null=True, blank=True
     )
-
-    is_finished = models.BooleanField("partido finalizado", default=False)
 
     class Meta:
         verbose_name = "partido"
         verbose_name_plural = "partidos"
         ordering = ["date"]
-
-    def clean(self):
-        super().clean()
-
-        if self.winner_id is None:
-            return
-
-        allowed_winners = {self.team_1_id, self.team_2_id}
-        if self.winner_id not in allowed_winners:
-            raise ValidationError(
-                {
-                    "winner": "El ganador debe ser el equipo 1, el equipo 2 o quedar en empate (sin ganador).",
-                }
-            )
 
     def __str__(self):
         return f"{self.team_1} vs {self.team_2} - {self.stage} ({self.date})"

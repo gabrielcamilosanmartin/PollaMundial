@@ -5,7 +5,7 @@ from .models import Match
 
 @admin.register(Match)
 class MatchAdmin(admin.ModelAdmin):
-    list_display = ("team_1", "team_2", "stage", "date", "is_finished")
-    list_filter = ("stage", "is_finished", "is_draw")
+    list_display = ("team_1", "team_2", "stage", "date", "goals_team_1", "goals_team_2")
+    list_filter = ("stage",)
     search_fields = ("stage", "ground")
     ordering = ("date",)
