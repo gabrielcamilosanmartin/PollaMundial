@@ -120,10 +120,31 @@ def update_results_from_api():
             continue
 
         goals_1, goals_2 = ft[0], ft[1]
-        if match.goals_team_1 != goals_1 or match.goals_team_2 != goals_2:
+        # Penales (si el partido se definió en la tanda).
+        penalties = score.get("p")
+        if penalties and len(penalties) >= 2:
+            pen_1, pen_2 = penalties[0], penalties[1]
+        else:
+            pen_1, pen_2 = None, None
+
+        if (
+            match.goals_team_1 != goals_1
+            or match.goals_team_2 != goals_2
+            or match.penalties_team_1 != pen_1
+            or match.penalties_team_2 != pen_2
+        ):
             match.goals_team_1 = goals_1
             match.goals_team_2 = goals_2
-            match.save(update_fields=["goals_team_1", "goals_team_2"])
+            match.penalties_team_1 = pen_1
+            match.penalties_team_2 = pen_2
+            match.save(
+                update_fields=[
+                    "goals_team_1",
+                    "goals_team_2",
+                    "penalties_team_1",
+                    "penalties_team_2",
+                ]
+            )
             actualizados += 1
 
     return actualizados
