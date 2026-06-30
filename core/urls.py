@@ -20,4 +20,9 @@ urlpatterns = [
         views.UserDeleteView.as_view(),
         name="user_delete",
     ),
+    path(
+        "administrar/usuarios/<int:pk>/enlace-reset/",
+        views.UserResetLinkView.as_view(),
+        name="user_reset_link",
+    ),
 ]
