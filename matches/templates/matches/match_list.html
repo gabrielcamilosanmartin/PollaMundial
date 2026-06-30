@@ -1,0 +1,72 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}Partidos · Polla Mundial{% endblock %}
+
+{% block dashboard_content %}
+<div class="flex items-center justify-between">
+    <div>
+        <h1 class="text-2xl font-bold tracking-tight text-slate-900">Partidos</h1>
+        <p class="mt-1 text-sm text-slate-500">Gestiona los partidos del sistema.</p>
+    </div>
+    <a href="{% url 'match_create' %}"
+       class="rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm
+              transition hover:bg-emerald-700">
+        + Nuevo Partido
+    </a>
+</div>
+
+<div class="mt-8 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+    <table class="min-w-full divide-y divide-slate-200 text-sm">
+        <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <tr>
+                <th class="px-4 py-3">ID</th>
+                <th class="px-4 py-3">Partido</th>
+                <th class="px-4 py-3">Fecha</th>
+                <th class="px-4 py-3">Etapa</th>
+                <th class="px-4 py-3">Resultado</th>
+                <th class="px-4 py-3">Empate</th>
+                <th class="px-4 py-3">Finalizado</th>
+                <th class="px-4 py-3 text-right">Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+            {% for match in matches %}
+            <tr class="hover:bg-slate-50/60">
+                <td class="px-4 py-3 font-medium text-slate-900">{{ match.id }}</td>
+                <td class="px-4 py-3 text-slate-600">{{ match.team_1 }} vs {{ match.team_2 }}</td>
+                <td class="px-4 py-3 text-slate-600">{{ match.date|date:'d/m/Y H:i' }}</td>
+                <td class="px-4 py-3 text-slate-600">{{ match.stage }}</td>
+                <td class="px-4 py-3 text-slate-600">{{ match.result|default:'—' }}</td>
+                <td class="px-4 py-3 text-center">
+                    {% if match.is_draw %}
+                    <span class="inline-flex rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700">Sí</span>
+                    {% else %}
+                    <span class="text-slate-400">No</span>
+                    {% endif %}
+                </td>
+                <td class="px-4 py-3 text-center">
+                    {% if match.is_finished %}
+                    <span class="inline-flex rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">Sí</span>
+                    {% else %}
+                    <span class="text-slate-400">No</span>
+                    {% endif %}
+                </td>
+                <td class="px-4 py-3 text-right">
+                    <a href="{% url 'match_update' match.pk %}"
+                       class="font-medium text-emerald-600 hover:text-emerald-700">Editar</a>
+                    <span class="px-1.5 text-slate-300">|</span>
+                    <a href="{% url 'match_delete' match.pk %}"
+                       class="font-medium text-red-600 hover:text-red-700">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8" class="px-4 py-10 text-center text-slate-500">
+                    No hay partidos todavía.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
