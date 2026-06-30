@@ -1,0 +1,61 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}Predicciones · Polla Mundial{% endblock %}
+
+{% block dashboard_content %}
+<h1 class="text-2xl font-bold tracking-tight text-slate-900">Predicciones (admin)</h1>
+<p class="mt-1 text-sm text-slate-500">
+    Elige un partido para añadir o editar las predicciones de todos los participantes
+    (útil para cargar las que llegaron por WhatsApp).
+</p>
+
+{% if request.GET.ok %}
+<div class="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+    Predicciones guardadas.
+</div>
+{% endif %}
+
+<div class="mt-8 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+    <table class="min-w-full divide-y divide-slate-200 text-sm">
+        <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <tr>
+                <th class="px-4 py-3">Partido</th>
+                <th class="px-4 py-3">Fecha</th>
+                <th class="px-4 py-3 text-center">Estado</th>
+                <th class="px-4 py-3 text-center">Resultado</th>
+                <th class="px-4 py-3 text-center">Predicciones</th>
+                <th class="px-4 py-3 text-right">Acción</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+            {% for match in matches %}
+            <tr class="hover:bg-slate-50/60">
+                <td class="px-4 py-3 font-medium text-slate-900">{{ match.team_1.name }} vs {{ match.team_2.name }}</td>
+                <td class="px-4 py-3 text-slate-600">
+                    <time data-utc="{{ match.date.isoformat }}">{{ match.date }}</time>
+                </td>
+                <td class="px-4 py-3 text-center">
+                    {% if match.has_started %}
+                    <span class="inline-flex rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500">Cerrado</span>
+                    {% else %}
+                    <span class="inline-flex rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">Abierto</span>
+                    {% endif %}
+                </td>
+                <td class="px-4 py-3 text-center text-slate-700">
+                    {{ match.goals_team_1|default_if_none:'—' }} : {{ match.goals_team_2|default_if_none:'—' }}
+                </td>
+                <td class="px-4 py-3 text-center text-slate-600">{{ match.num_preds }}</td>
+                <td class="px-4 py-3 text-right">
+                    <a href="{% url 'prediction_admin_match' match.pk %}"
+                       class="font-medium text-emerald-600 hover:text-emerald-700">Editar predicciones</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="px-4 py-10 text-center text-slate-500">No hay partidos.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

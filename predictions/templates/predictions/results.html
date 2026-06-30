@@ -1,0 +1,77 @@
+{% extends "dashboard_base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Results" %} · Polla Mundial{% endblock %}
+
+{% block dashboard_content %}
+<h1 class="text-2xl font-bold tracking-tight text-slate-900">{% trans "Results" %}</h1>
+<p class="mt-1 text-sm text-slate-500">
+    {% trans "Match results and points per participant (1 point for the winner, 3 for the exact score)." %}
+</p>
+
+{% if api_error %}
+<div class="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
+    {% trans "The results could not be updated from the API." %}
+</div>
+{% endif %}
+
+<!-- Clasificación -->
+<div class="mt-8">
+    <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">{% trans "Standings" %}</h2>
+    <div class="mt-3 flex flex-wrap gap-3">
+        {% for entry in leaderboard %}
+        <div class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+            <span class="grid h-7 w-7 place-items-center rounded-full bg-emerald-600 text-xs font-bold text-white">{{ forloop.counter }}</span>
+            <span class="font-medium text-slate-800">{{ entry.name }}</span>
+            <span class="rounded-full bg-emerald-50 px-2 py-0.5 text-sm font-semibold text-emerald-700">{{ entry.total }} {% trans "pts" %}</span>
+        </div>
+        {% empty %}
+        <p class="text-sm text-slate-500">{% trans "There are no results yet." %}</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Tabla de puntos por partido -->
+{% if rows %}
+<div class="mt-8 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+    <table class="min-w-full divide-y divide-slate-200 text-sm">
+        <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <tr>
+                <th class="px-4 py-3">{% trans "Match" %}</th>
+                <th class="px-4 py-3 text-center">{% trans "Result" %}</th>
+                {% for p in participants %}
+                <th class="px-4 py-3 text-center">{{ p.name }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+            {% for row in rows %}
+            <tr class="hover:bg-slate-50/60">
+                <td class="px-4 py-3 font-medium text-slate-900">
+                    {{ row.match.team_1.name }} vs {{ row.match.team_2.name }}
+                </td>
+                <td class="px-4 py-3 text-center font-semibold text-slate-800">
+                    {{ row.match.goals_team_1 }} : {{ row.match.goals_team_2 }}
+                </td>
+                {% for cell in row.cells %}
+                <td class="px-4 py-3 text-center">
+                    {% if cell.prediction %}
+                    <span class="text-xs text-slate-400">{{ cell.prediction.goals_team_1 }}:{{ cell.prediction.goals_team_2 }}</span>
+                    <span class="ml-1 inline-flex rounded-full px-2 py-0.5 text-xs font-semibold
+                        {% if cell.points == 3 %}bg-emerald-100 text-emerald-700
+                        {% elif cell.points == 1 %}bg-amber-100 text-amber-700
+                        {% else %}bg-slate-100 text-slate-400{% endif %}">
+                        +{{ cell.points }}
+                    </span>
+                    {% else %}
+                    <span class="text-slate-300">—</span>
+                    {% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}

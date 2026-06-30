@@ -1,0 +1,48 @@
+{% extends "dashboard_base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "My predictions" %} · Polla Mundial{% endblock %}
+
+{% block dashboard_content %}
+<h1 class="text-2xl font-bold tracking-tight text-slate-900">{% trans "My predictions" %}</h1>
+<p class="mt-1 text-sm text-slate-500">
+    {% trans "Predictions of all participants for the matches that have finished." %}
+</p>
+
+<div class="mt-8 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+    <table class="min-w-full divide-y divide-slate-200 text-sm">
+        <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <tr>
+                <th class="px-4 py-3">{% trans "Match" %}</th>
+                <th class="px-4 py-3 text-center">{% trans "Result" %}</th>
+                {% for p in participants %}
+                <th class="px-4 py-3 text-center">{{ p.name }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+            {% for row in rows %}
+            <tr class="hover:bg-slate-50/60">
+                <td class="px-4 py-3 font-medium text-slate-900">
+                    {{ row.match.team_1.name }} vs {{ row.match.team_2.name }}
+                </td>
+                <td class="px-4 py-3 text-center font-semibold text-slate-800">
+                    {{ row.match.goals_team_1 }} : {{ row.match.goals_team_2 }}
+                </td>
+                {% for pred in row.cells %}
+                <td class="px-4 py-3 text-center text-slate-600">
+                    {% if pred %}{{ pred.goals_team_1 }} : {{ pred.goals_team_2 }}{% else %}<span class="text-slate-300">—</span>{% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="{{ participants|length|add:2 }}" class="px-4 py-10 text-center text-slate-500">
+                    {% trans "There are no finished matches yet." %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

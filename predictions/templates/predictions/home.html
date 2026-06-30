@@ -1,0 +1,84 @@
+{% extends "dashboard_base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Matches" %} · Polla Mundial{% endblock %}
+
+{% block dashboard_content %}
+<h1 class="text-2xl font-bold tracking-tight text-slate-900">{% trans "Matches" %}</h1>
+<p class="mt-1 text-sm text-slate-500">{% trans "Predict the score of each match before it starts." %}</p>
+
+{% if saved %}
+<div class="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+    {% trans "Your predictions were saved." %}
+</div>
+{% endif %}
+
+<form method="post" class="mt-8">
+    {% csrf_token %}
+    <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+        <table class="min-w-full divide-y divide-slate-200 text-sm">
+            <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                <tr>
+                    <th class="px-4 py-3">{% trans "Match" %}</th>
+                    <th class="px-4 py-3">{% trans "Date" %}</th>
+                    <th class="px-4 py-3">{% trans "Stage" %}</th>
+                    <th class="px-4 py-3 text-center">{% trans "Your prediction" %}</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for match in matches %}
+                <tr class="hover:bg-slate-50/60">
+                    <td class="px-4 py-3 font-medium text-slate-900">{{ match.team_1.name }} vs {{ match.team_2.name }}</td>
+                    <td class="px-4 py-3 text-slate-600">
+                        <time data-utc="{{ match.date.isoformat }}">{{ match.date }}</time>
+                    </td>
+                    <td class="px-4 py-3 text-slate-500">{{ match.stage }}</td>
+                    <td class="px-4 py-3">
+                        {% if match.has_started %}
+                        <div class="flex items-center justify-center gap-2">
+                            {% if match.my_prediction %}
+                            <span class="font-medium text-slate-700">{{ match.my_prediction.goals_team_1 }} : {{ match.my_prediction.goals_team_2 }}</span>
+                            {% else %}
+                            <span class="text-slate-400">—</span>
+                            {% endif %}
+                            <span class="inline-flex rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500">
+                                {% trans "Closed" %}
+                            </span>
+                        </div>
+                        {% else %}
+                        <div class="flex items-center justify-center gap-2">
+                            <input type="number" min="0" name="goals_team_1_{{ match.id }}"
+                                   value="{{ match.my_prediction.goals_team_1|default_if_none:'' }}"
+                                   class="w-14 rounded-lg border border-slate-300 px-2 py-1.5 text-center text-sm
+                                          focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30 focus:outline-none">
+                            <span class="text-slate-400">:</span>
+                            <input type="number" min="0" name="goals_team_2_{{ match.id }}"
+                                   value="{{ match.my_prediction.goals_team_2|default_if_none:'' }}"
+                                   class="w-14 rounded-lg border border-slate-300 px-2 py-1.5 text-center text-sm
+                                          focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30 focus:outline-none">
+                        </div>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="px-4 py-10 text-center text-slate-500">
+                        {% trans "There are no matches yet." %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if matches %}
+    <div class="mt-6 flex justify-end">
+        <button type="submit"
+                class="rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm
+                       transition hover:bg-emerald-700">
+            {% trans "Save predictions" %}
+        </button>
+    </div>
+    {% endif %}
+</form>
+{% endblock %}

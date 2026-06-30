@@ -1,32 +1,19 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+
+from common.mixins import StaffRequiredMixin
 
 from .forms import UserCreateForm, UserUpdateForm
 
 User = get_user_model()
 
 
-@login_required
-def home(request):
-    return render(request, "core/home.html")
-
-
-class StaffRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
-    """Solo personal autorizado (is_staff) puede gestionar usuarios."""
-
-    def test_func(self):
-        return self.request.user.is_staff
-
-
 class UserListView(StaffRequiredMixin, ListView):
     model = User
     template_name = "core/user_list.html"
     context_object_name = "users"
-    ordering = ["username"]
+    ordering = ["email"]
 
 
 class UserCreateView(StaffRequiredMixin, CreateView):

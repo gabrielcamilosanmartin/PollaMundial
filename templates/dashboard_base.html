@@ -13,6 +13,18 @@
 
             <!-- Menú principal -->
             <nav class="hidden items-center gap-1 sm:flex">
+                <a href="{% url 'home' %}"
+                   class="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100">
+                    {% trans "Matches" %}
+                </a>
+                <a href="{% url 'my_predictions' %}"
+                   class="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100">
+                    {% trans "My predictions" %}
+                </a>
+                <a href="{% url 'results' %}"
+                   class="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100">
+                    {% trans "Results" %}
+                </a>
                 {% if user.is_staff %}
                 <details class="group relative">
                     <summary class="flex cursor-pointer list-none items-center gap-1 rounded-lg px-3 py-2 text-sm
@@ -30,6 +42,18 @@
                         <a href="{% url 'user_list' %}"
                            class="block px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50">
                             Usuarios
+                        </a>
+                        <a href="{% url 'country_list' %}"
+                           class="block px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50">
+                            Paises
+                        </a>
+                        <a href="{% url 'match_list' %}"
+                           class="block px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50">
+                            Partidos
+                        </a>
+                        <a href="{% url 'prediction_admin_list' %}"
+                           class="block px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50">
+                            Predicciones
                         </a>
                     </div>
                 </details>
@@ -51,7 +75,7 @@
     </div>
 </header>
 
-<main class="mx-auto max-w-5xl px-6 py-12">
+<main class="mx-auto max-w-6xl px-6 py-12">
     {% block dashboard_content %}{% endblock %}
 </main>
 {% endblock %}

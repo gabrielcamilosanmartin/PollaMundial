@@ -55,6 +55,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'core',
+    'countries',
+    'matches',
+    'predictions',
 ]
 
 # Modelo de usuario personalizado: el email es el identificador de login.

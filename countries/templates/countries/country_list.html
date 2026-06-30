@@ -1,0 +1,61 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}Paises · Polla Mundial{% endblock %}
+
+{% block dashboard_content %}
+<div class="flex items-center justify-between">
+    <div>
+        <h1 class="text-2xl font-bold tracking-tight text-slate-900">Paises</h1>
+        <p class="mt-1 text-sm text-slate-500">Gestiona los países del sistema.</p>
+    </div>
+    <a href="{% url 'country_create' %}"
+       class="rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm
+              transition hover:bg-emerald-700">
+        + Nuevo Pais
+    </a>
+</div>
+
+<div class="mt-8 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+    <table class="min-w-full divide-y divide-slate-200 text-sm">
+        <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <tr>
+                <th class="px-4 py-3">ID</th>
+                <th class="px-4 py-3">Nombre</th>
+                <th class="px-4 py-3 text-center">Código</th>
+                <th class="px-4 py-3 text-right">Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+            {% for country in countries %}
+            <tr class="hover:bg-slate-50/60">
+                <td class="px-4 py-3 font-medium text-slate-900">{{ country.id }}</td>
+                <td class="px-4 py-3 text-slate-600">{{ country.name }}</td>
+                <td class="px-4 py-3 text-center">
+                    <span class="inline-flex rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">{{ country.code }}</span>
+                </td>
+                <td class="px-4 py-3 text-center">
+                    {% if u.is_staff %}
+                    <span class="inline-flex rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-700">Sí</span>
+                    {% else %}
+                    <span class="text-slate-400">—</span>
+                    {% endif %}
+                </td>
+                <td class="px-4 py-3 text-right">
+                    <a href="{% url 'country_update' country.pk %}"
+                       class="font-medium text-emerald-600 hover:text-emerald-700">Editar</a>
+                    <span class="px-1.5 text-slate-300">|</span>
+                    <a href="{% url 'country_delete' country.pk %}"
+                       class="font-medium text-red-600 hover:text-red-700">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="px-4 py-10 text-center text-slate-500">
+                    No hay países todavía.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
