@@ -1,6 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
@@ -9,11 +7,6 @@ from common.mixins import StaffRequiredMixin
 from .forms import UserCreateForm, UserUpdateForm
 
 User = get_user_model()
-
-
-@login_required
-def home(request):
-    return render(request, "core/home.html")
 
 
 class UserListView(StaffRequiredMixin, ListView):

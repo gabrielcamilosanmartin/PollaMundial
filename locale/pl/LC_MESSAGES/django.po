@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PollaMundial 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-29 23:25+0000\n"
+"POT-Creation-Date: 2026-06-30 03:11+0000\n"
 "PO-Revision-Date: 2026-06-29 22:40+0000\n"
 "Last-Translator: \n"
 "Language-Team: Polski\n"
@@ -18,23 +18,101 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
 "|| n%100>14) ? 1 : 2);\n"
 
-#: templates/core/home.html:4
-msgid "Home"
-msgstr "Start (zdrajco)"
+#: predictions/templates/predictions/home.html:4
+#: predictions/templates/predictions/home.html:7
+#: templates/dashboard_base.html:18
+msgid "Matches"
+msgstr "Mecze"
 
-#: templates/core/home.html:8
-#, python-format
-msgid "Hi, %(username)s! 👋"
+#: predictions/templates/predictions/home.html:8
+msgid "Predict the score of each match before it starts."
 msgstr ""
-"Cześć, %(username)s, ty zdrajco! 👋 A na wesele jednak nie przyjedziesz?"
+"Typuj wynik każdego meczu, zanim się zacznie (jeśli zdążysz między wymówkami "
+"od wesela, zdrajco)."
 
-#: templates/core/home.html:10
-msgid "You have signed in successfully. Your pool will go here."
+#: predictions/templates/predictions/home.html:12
+msgid "Your predictions were saved."
+msgstr "Twoje typy zapisano."
+
+#: predictions/templates/predictions/home.html:22
+#: predictions/templates/predictions/my_predictions.html:16
+#: predictions/templates/predictions/results.html:40
+msgid "Match"
+msgstr "Mecz"
+
+#: predictions/templates/predictions/home.html:23
+msgid "Date"
+msgstr "Data"
+
+#: predictions/templates/predictions/home.html:24
+msgid "Stage"
+msgstr "Faza"
+
+#: predictions/templates/predictions/home.html:25
+msgid "Your prediction"
+msgstr "Twój typ"
+
+#: predictions/templates/predictions/home.html:45
+msgid "Closed"
+msgstr "Zamknięte"
+
+#: predictions/templates/predictions/home.html:66
+msgid "There are no matches yet."
+msgstr "Nie ma jeszcze meczów."
+
+#: predictions/templates/predictions/home.html:79
+msgid "Save predictions"
+msgstr "Zapisz typy"
+
+#: predictions/templates/predictions/my_predictions.html:4
+#: predictions/templates/predictions/my_predictions.html:7
+#: templates/dashboard_base.html:22
+msgid "My predictions"
+msgstr "Moje typy"
+
+#: predictions/templates/predictions/my_predictions.html:9
+msgid "Predictions of all participants for the matches that have finished."
+msgstr "Typy wszystkich uczestników dla zakończonych meczów."
+
+#: predictions/templates/predictions/my_predictions.html:17
+#: predictions/templates/predictions/results.html:41
+msgid "Result"
+msgstr "Wynik"
+
+#: predictions/templates/predictions/my_predictions.html:41
+msgid "There are no finished matches yet."
+msgstr "Nie ma jeszcze zakończonych meczów."
+
+#: predictions/templates/predictions/results.html:4
+#: predictions/templates/predictions/results.html:7
+#: templates/dashboard_base.html:26
+msgid "Results"
+msgstr "Wyniki"
+
+#: predictions/templates/predictions/results.html:9
+msgid ""
+"Match results and points per participant (1 point for the winner, 3 for the "
+"exact score)."
 msgstr ""
-"Zalogowano. Szkoda, że z Polski nie ruszysz się na wesele kolegi, co? "
-"Zdrajca jeden."
+"Wyniki meczów i punkty uczestników (1 pkt za zwycięzcę, 3 za dokładny wynik)."
 
-#: templates/dashboard_base.html:47
+#: predictions/templates/predictions/results.html:14
+msgid "The results could not be updated from the API."
+msgstr "Nie udało się zaktualizować wyników z API."
+
+#: predictions/templates/predictions/results.html:20
+msgid "Standings"
+msgstr "Klasyfikacja (Yenko i tak na końcu, bo zdrajca)."
+
+#: predictions/templates/predictions/results.html:26
+msgid "pts"
+msgstr "pkt"
+
+#: predictions/templates/predictions/results.html:29
+msgid "There are no results yet."
+msgstr "Nie ma jeszcze wyników."
+
+#: templates/dashboard_base.html:67
 msgid "Sign out"
 msgstr "Wyloguj się"
 
@@ -81,6 +159,19 @@ msgstr "Nie masz konta?"
 #: templates/registration/login.html:127
 msgid "Sign up"
 msgstr "Zarejestruj się"
+
+#~ msgid "Home"
+#~ msgstr "Start (zdrajco)"
+
+#, python-format
+#~ msgid "Hi, %(username)s! 👋"
+#~ msgstr ""
+#~ "Cześć, %(username)s, ty zdrajco! 👋 A na wesele jednak nie przyjedziesz?"
+
+#~ msgid "You have signed in successfully. Your pool will go here."
+#~ msgstr ""
+#~ "Zalogowano. Szkoda, że z Polski nie ruszysz się na wesele kolegi, co? "
+#~ "Zdrajca jeden."
 
 #~ msgid "Username"
 #~ msgstr "Nazwa użytkownika"

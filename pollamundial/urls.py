@@ -28,6 +28,7 @@ urlpatterns = [
         name='initial_password_change',
     ),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('', include('predictions.urls')),
     path('', include('core.urls')),
     path('', include('countries.urls')),
     path('', include('matches.urls')),

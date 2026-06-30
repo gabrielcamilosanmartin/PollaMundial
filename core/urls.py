@@ -3,7 +3,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("", views.home, name="home"),
     # Administrar > Usuarios (CRUD)
     path("administrar/usuarios/", views.UserListView.as_view(), name="user_list"),
     path(

@@ -9,5 +9,19 @@
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-800 antialiased">
     {% block content %}{% endblock %}
+
+    <!-- Formatea las fechas (<time data-utc>) a la zona horaria local del usuario -->
+    <script>
+        document.querySelectorAll("time[data-utc]").forEach(function (el) {
+            var iso = el.getAttribute("data-utc");
+            if (!iso) return;
+            var d = new Date(iso);
+            if (isNaN(d.getTime())) return;
+            el.textContent = d.toLocaleString([], {
+                dateStyle: "medium",
+                timeStyle: "short",
+            });
+        });
+    </script>
 </body>
 </html>

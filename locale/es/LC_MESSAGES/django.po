@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PollaMundial 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-29 23:25+0000\n"
+"POT-Creation-Date: 2026-06-30 03:11+0000\n"
 "PO-Revision-Date: 2026-06-29 22:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: Español\n"
@@ -16,20 +16,100 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: templates/core/home.html:4
-msgid "Home"
-msgstr "Inicio"
+#: predictions/templates/predictions/home.html:4
+#: predictions/templates/predictions/home.html:7
+#: templates/dashboard_base.html:18
+msgid "Matches"
+msgstr "Partidos"
 
-#: templates/core/home.html:8
-#, python-format
-msgid "Hi, %(username)s! 👋"
-msgstr "¡Hola, %(username)s! 👋"
+#: predictions/templates/predictions/home.html:8
+msgid "Predict the score of each match before it starts."
+msgstr "Pronostica el marcador de cada partido antes de que comience."
 
-#: templates/core/home.html:10
-msgid "You have signed in successfully. Your pool will go here."
-msgstr "Has iniciado sesión correctamente. Aquí irá tu polla."
+#: predictions/templates/predictions/home.html:12
+msgid "Your predictions were saved."
+msgstr "Tus pronósticos se guardaron."
 
-#: templates/dashboard_base.html:47
+#: predictions/templates/predictions/home.html:22
+#: predictions/templates/predictions/my_predictions.html:16
+#: predictions/templates/predictions/results.html:40
+msgid "Match"
+msgstr "Partido"
+
+#: predictions/templates/predictions/home.html:23
+msgid "Date"
+msgstr "Fecha"
+
+#: predictions/templates/predictions/home.html:24
+msgid "Stage"
+msgstr "Etapa"
+
+#: predictions/templates/predictions/home.html:25
+msgid "Your prediction"
+msgstr "Tu pronóstico"
+
+#: predictions/templates/predictions/home.html:45
+msgid "Closed"
+msgstr "Cerrado"
+
+#: predictions/templates/predictions/home.html:66
+msgid "There are no matches yet."
+msgstr "Aún no hay partidos."
+
+#: predictions/templates/predictions/home.html:79
+msgid "Save predictions"
+msgstr "Guardar pronósticos"
+
+#: predictions/templates/predictions/my_predictions.html:4
+#: predictions/templates/predictions/my_predictions.html:7
+#: templates/dashboard_base.html:22
+msgid "My predictions"
+msgstr "Mis predicciones"
+
+#: predictions/templates/predictions/my_predictions.html:9
+msgid "Predictions of all participants for the matches that have finished."
+msgstr "Pronósticos de todos los participantes en los partidos ya finalizados."
+
+#: predictions/templates/predictions/my_predictions.html:17
+#: predictions/templates/predictions/results.html:41
+msgid "Result"
+msgstr "Resultado"
+
+#: predictions/templates/predictions/my_predictions.html:41
+msgid "There are no finished matches yet."
+msgstr "Aún no hay partidos finalizados."
+
+#: predictions/templates/predictions/results.html:4
+#: predictions/templates/predictions/results.html:7
+#: templates/dashboard_base.html:26
+msgid "Results"
+msgstr "Resultados"
+
+#: predictions/templates/predictions/results.html:9
+msgid ""
+"Match results and points per participant (1 point for the winner, 3 for the "
+"exact score)."
+msgstr ""
+"Resultados de los partidos y puntos por participante (1 punto por el ganador, "
+"3 por el marcador exacto)."
+
+#: predictions/templates/predictions/results.html:14
+msgid "The results could not be updated from the API."
+msgstr "No se pudieron actualizar los resultados desde la API."
+
+#: predictions/templates/predictions/results.html:20
+msgid "Standings"
+msgstr "Clasificación"
+
+#: predictions/templates/predictions/results.html:26
+msgid "pts"
+msgstr "pts"
+
+#: predictions/templates/predictions/results.html:29
+msgid "There are no results yet."
+msgstr "Aún no hay resultados."
+
+#: templates/dashboard_base.html:67
 msgid "Sign out"
 msgstr "Cerrar sesión"
 
@@ -76,6 +156,16 @@ msgstr "¿No tienes cuenta?"
 #: templates/registration/login.html:127
 msgid "Sign up"
 msgstr "Regístrate"
+
+#~ msgid "Home"
+#~ msgstr "Inicio"
+
+#, python-format
+#~ msgid "Hi, %(username)s! 👋"
+#~ msgstr "¡Hola, %(username)s! 👋"
+
+#~ msgid "You have signed in successfully. Your pool will go here."
+#~ msgstr "Has iniciado sesión correctamente. Aquí irá tu polla."
 
 #~ msgid "Username"
 #~ msgstr "Usuario"

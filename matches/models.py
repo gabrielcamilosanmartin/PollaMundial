@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Match(models.Model):
@@ -25,6 +26,25 @@ class Match(models.Model):
         verbose_name = "partido"
         verbose_name_plural = "partidos"
         ordering = ["date"]
+
+    @property
+    def has_result(self):
+        return self.goals_team_1 is not None and self.goals_team_2 is not None
+
+    @property
+    def outcome(self):
+        """Desenlace del partido: 'team_1', 'team_2', 'draw' o None si no hay resultado."""
+        if not self.has_result:
+            return None
+        if self.goals_team_1 > self.goals_team_2:
+            return "team_1"
+        if self.goals_team_1 < self.goals_team_2:
+            return "team_2"
+        return "draw"
+
+    @property
+    def has_started(self):
+        return timezone.now() >= self.date
 
     def __str__(self):
         return f"{self.team_1} vs {self.team_2} - {self.stage} ({self.date})"
