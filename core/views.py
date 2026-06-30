@@ -26,7 +26,7 @@ class UserListView(StaffRequiredMixin, ListView):
     model = User
     template_name = "core/user_list.html"
     context_object_name = "users"
-    ordering = ["username"]
+    ordering = ["email"]
 
 
 class UserCreateView(StaffRequiredMixin, CreateView):
