@@ -83,10 +83,9 @@ class MyPredictionsView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Partidos que ya comenzaron (con o sin resultado todavía).
         matches = list(
-            Match.objects.filter(
-                goals_team_1__isnull=False, goals_team_2__isnull=False
-            )
+            Match.objects.filter(date__lte=timezone.now())
             .select_related("team_1", "team_2")
             .order_by("-date")
         )
@@ -124,10 +123,9 @@ class ResultsView(LoginRequiredMixin, TemplateView):
             context["api_updated"] = 0
             context["api_error"] = str(exc)
 
+        # Partidos que ya comenzaron (con o sin resultado todavía).
         matches = list(
-            Match.objects.filter(
-                goals_team_1__isnull=False, goals_team_2__isnull=False
-            )
+            Match.objects.filter(date__lte=timezone.now())
             .select_related("team_1", "team_2")
             .order_by("-date")
         )
