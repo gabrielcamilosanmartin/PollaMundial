@@ -95,17 +95,18 @@ def create_matches(nuevos):
 
 
 def update_results_from_api():
-    """Actualiza los goles de los partidos locales con el score.ft de la API.
+    """Actualiza los goles de los partidos locales con el resultado de la API.
 
-    En score.ft el primer número son los goles del team_1 y el segundo los del
+    El resultado final se toma de "et" (prórroga) si existe, y si no de "ft"
+    (90 minutos). El primer número son los goles del team_1 y el segundo los del
     team_2. Devuelve cuántos partidos se actualizaron.
     """
     countries = _country_by_code()
     actualizados = 0
     for item in fetch_api_matches():
         score = item.get("score") or {}
-        ft = score.get("ft")
-        if not ft or len(ft) < 2:
+        final = score.get("et") or score.get("ft")
+        if not final or len(final) < 2:
             continue
 
         team_1 = countries.get(item.get("team1"))
@@ -119,7 +120,7 @@ def update_results_from_api():
         except Match.DoesNotExist:
             continue
 
-        goals_1, goals_2 = ft[0], ft[1]
+        goals_1, goals_2 = final[0], final[1]
         # Penales (si el partido se definió en la tanda).
         penalties = score.get("p")
         if penalties and len(penalties) >= 2:
