@@ -10,6 +10,20 @@
 <body class="min-h-screen bg-slate-50 text-slate-800 antialiased">
     {% block content %}{% endblock %}
 
+    <!-- Guarda la zona horaria del navegador en una cookie (para calcular "hoy" local) -->
+    <script>
+        (function () {
+            try {
+                var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                if (tz && document.cookie.indexOf("tz=") === -1 && !sessionStorage.getItem("tzReloaded")) {
+                    document.cookie = "tz=" + tz + ";path=/;max-age=31536000;samesite=Lax";
+                    sessionStorage.setItem("tzReloaded", "1");
+                    window.location.reload();
+                }
+            } catch (e) {}
+        })();
+    </script>
+
     <!-- Formatea las fechas (<time data-utc>) a la zona horaria local del usuario -->
     <script>
         document.querySelectorAll("time[data-utc]").forEach(function (el) {

@@ -34,25 +34,30 @@
                     </td>
                     <td class="px-4 py-3 text-slate-500">{{ match.stage }}</td>
                     <td class="px-4 py-3">
-                        <div class="flex items-center justify-center gap-2">
-                            <input type="number" min="0" name="goals_team_1_{{ match.id }}"
-                                   value="{{ match.my_prediction.goals_team_1|default_if_none:'' }}"
-                                   {% if match.has_started %}disabled{% endif %}
-                                   class="w-14 rounded-lg border border-slate-300 px-2 py-1.5 text-center text-sm
-                                          focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30 focus:outline-none
-                                          {% if match.has_started %}cursor-not-allowed bg-slate-100 text-slate-400{% endif %}">
-                            <span class="text-slate-400">:</span>
-                            <input type="number" min="0" name="goals_team_2_{{ match.id }}"
-                                   value="{{ match.my_prediction.goals_team_2|default_if_none:'' }}"
-                                   {% if match.has_started %}disabled{% endif %}
-                                   class="w-14 rounded-lg border border-slate-300 px-2 py-1.5 text-center text-sm
-                                          focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30 focus:outline-none
-                                          {% if match.has_started %}cursor-not-allowed bg-slate-100 text-slate-400{% endif %}">
-                            {% if match.has_started %}
-                            <span class="inline-flex rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500">
-                                {% trans "Closed" %}
+                        <div class="grid grid-cols-[1fr_auto_1fr] items-center">
+                            <span></span>
+                            <div class="flex items-center justify-center gap-2">
+                                <input type="number" min="0" name="goals_team_1_{{ match.id }}"
+                                       value="{{ match.my_prediction.goals_team_1|default_if_none:'' }}"
+                                       {% if match.has_started %}disabled{% endif %}
+                                       class="w-14 rounded-lg border border-slate-300 px-2 py-1.5 text-center text-sm
+                                              focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30 focus:outline-none
+                                              {% if match.has_started %}cursor-not-allowed bg-slate-100 text-slate-400{% endif %}">
+                                <span class="text-slate-400">:</span>
+                                <input type="number" min="0" name="goals_team_2_{{ match.id }}"
+                                       value="{{ match.my_prediction.goals_team_2|default_if_none:'' }}"
+                                       {% if match.has_started %}disabled{% endif %}
+                                       class="w-14 rounded-lg border border-slate-300 px-2 py-1.5 text-center text-sm
+                                              focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30 focus:outline-none
+                                              {% if match.has_started %}cursor-not-allowed bg-slate-100 text-slate-400{% endif %}">
+                            </div>
+                            <span class="pl-3">
+                                {% if match.has_started %}
+                                <span class="inline-flex whitespace-nowrap rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500">
+                                    {% trans "Closed" %}
+                                </span>
+                                {% endif %}
                             </span>
-                            {% endif %}
                         </div>
                     </td>
                 </tr>

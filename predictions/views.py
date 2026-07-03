@@ -26,9 +26,9 @@ class HomeView(LoginRequiredMixin, View):
     template_name = "predictions/home.html"
 
     def _matches_with_predictions(self, user):
-        # Partidos de hoy en adelante (no se muestran los de días anteriores).
+        # Partidos de hoy en adelante (según la zona horaria del usuario).
         # Los que ya comenzaron se muestran pero con los inputs deshabilitados.
-        start_of_today = timezone.now().replace(
+        start_of_today = timezone.localtime(timezone.now()).replace(
             hour=0, minute=0, second=0, microsecond=0
         )
         matches = list(
@@ -83,10 +83,9 @@ class MyPredictionsView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Partidos que ya comenzaron (con o sin resultado todavía).
         matches = list(
-            Match.objects.filter(
-                goals_team_1__isnull=False, goals_team_2__isnull=False
-            )
+            Match.objects.filter(date__lte=timezone.now())
             .select_related("team_1", "team_2")
             .order_by("-date")
         )
@@ -124,10 +123,9 @@ class ResultsView(LoginRequiredMixin, TemplateView):
             context["api_updated"] = 0
             context["api_error"] = str(exc)
 
+        # Partidos que ya comenzaron (con o sin resultado todavía).
         matches = list(
-            Match.objects.filter(
-                goals_team_1__isnull=False, goals_team_2__isnull=False
-            )
+            Match.objects.filter(date__lte=timezone.now())
             .select_related("team_1", "team_2")
             .order_by("-date")
         )
