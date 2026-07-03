@@ -26,9 +26,9 @@ class HomeView(LoginRequiredMixin, View):
     template_name = "predictions/home.html"
 
     def _matches_with_predictions(self, user):
-        # Partidos de hoy en adelante (no se muestran los de días anteriores).
+        # Partidos de hoy en adelante (según la zona horaria del usuario).
         # Los que ya comenzaron se muestran pero con los inputs deshabilitados.
-        start_of_today = timezone.now().replace(
+        start_of_today = timezone.localtime(timezone.now()).replace(
             hour=0, minute=0, second=0, microsecond=0
         )
         matches = list(
