@@ -26,9 +26,13 @@ class HomeView(LoginRequiredMixin, View):
     template_name = "predictions/home.html"
 
     def _matches_with_predictions(self, user):
-        # Solo partidos que aún no han comenzado (los cerrados no se muestran).
+        # Partidos de hoy en adelante (no se muestran los de días anteriores).
+        # Los que ya comenzaron se muestran pero con los inputs deshabilitados.
+        start_of_today = timezone.now().replace(
+            hour=0, minute=0, second=0, microsecond=0
+        )
         matches = list(
-            Match.objects.filter(date__gt=timezone.now())
+            Match.objects.filter(date__gte=start_of_today)
             .select_related("team_1", "team_2")
             .order_by("date")
         )
@@ -84,7 +88,7 @@ class MyPredictionsView(LoginRequiredMixin, TemplateView):
                 goals_team_1__isnull=False, goals_team_2__isnull=False
             )
             .select_related("team_1", "team_2")
-            .order_by("date")
+            .order_by("-date")
         )
         users = list(User.objects.order_by("first_name", "email"))
         preds = {
@@ -125,7 +129,7 @@ class ResultsView(LoginRequiredMixin, TemplateView):
                 goals_team_1__isnull=False, goals_team_2__isnull=False
             )
             .select_related("team_1", "team_2")
-            .order_by("date")
+            .order_by("-date")
         )
         users = list(User.objects.order_by("first_name", "email"))
         preds = {
