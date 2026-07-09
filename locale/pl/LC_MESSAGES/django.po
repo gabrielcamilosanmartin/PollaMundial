@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PollaMundial 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-30 03:11+0000\n"
+"POT-Creation-Date: 2026-07-09 17:28+0000\n"
 "PO-Revision-Date: 2026-06-29 22:40+0000\n"
 "Last-Translator: \n"
 "Language-Team: Polski\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: predictions/templates/predictions/home.html:4
 #: predictions/templates/predictions/home.html:7
-#: templates/dashboard_base.html:18
+#: templates/dashboard_base.html:18 templates/dashboard_base.html:83
 msgid "Matches"
 msgstr "Mecze"
 
@@ -52,21 +52,21 @@ msgstr "Faza"
 msgid "Your prediction"
 msgstr "Twój typ"
 
-#: predictions/templates/predictions/home.html:45
+#: predictions/templates/predictions/home.html:57
 msgid "Closed"
 msgstr "Zamknięte"
 
-#: predictions/templates/predictions/home.html:66
+#: predictions/templates/predictions/home.html:67
 msgid "There are no matches yet."
 msgstr "Nie ma jeszcze meczów."
 
-#: predictions/templates/predictions/home.html:79
+#: predictions/templates/predictions/home.html:80
 msgid "Save predictions"
 msgstr "Zapisz typy"
 
 #: predictions/templates/predictions/my_predictions.html:4
 #: predictions/templates/predictions/my_predictions.html:7
-#: templates/dashboard_base.html:22
+#: templates/dashboard_base.html:22 templates/dashboard_base.html:87
 msgid "My predictions"
 msgstr "Moje typy"
 
@@ -85,7 +85,7 @@ msgstr "Nie ma jeszcze zakończonych meczów."
 
 #: predictions/templates/predictions/results.html:4
 #: predictions/templates/predictions/results.html:7
-#: templates/dashboard_base.html:26
+#: templates/dashboard_base.html:26 templates/dashboard_base.html:91
 msgid "Results"
 msgstr "Wyniki"
 
@@ -112,7 +112,7 @@ msgstr "pkt"
 msgid "There are no results yet."
 msgstr "Nie ma jeszcze wyników."
 
-#: templates/dashboard_base.html:67
+#: templates/dashboard_base.html:64 templates/dashboard_base.html:112
 msgid "Sign out"
 msgstr "Wyloguj się"
 
@@ -137,8 +137,8 @@ msgid "Sign in to continue with your pool."
 msgstr "Zaloguj się i typuj mecze... bo na wesele i tak nie dotrzesz."
 
 #: templates/registration/login.html:78
-msgid "Email"
-msgstr "E-mail (zdrajco)"
+msgid "Username"
+msgstr "Nazwa użytkownika"
 
 #: templates/registration/login.html:95
 msgid "Password"
@@ -160,6 +160,9 @@ msgstr "Nie masz konta?"
 msgid "Sign up"
 msgstr "Zarejestruj się"
 
+#~ msgid "Email"
+#~ msgstr "E-mail (zdrajco)"
+
 #~ msgid "Home"
 #~ msgstr "Start (zdrajco)"
 
@@ -172,9 +175,6 @@ msgstr "Zarejestruj się"
 #~ msgstr ""
 #~ "Zalogowano. Szkoda, że z Polski nie ruszysz się na wesele kolegi, co? "
 #~ "Zdrajca jeden."
-
-#~ msgid "Username"
-#~ msgstr "Nazwa użytkownika"
 
 #~ msgid "your_username"
 #~ msgstr "twoja_nazwa"

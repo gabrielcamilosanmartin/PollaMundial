@@ -1,11 +1,13 @@
-# Blueprint de Render: web service (Python nativo) + PostgreSQL gestionado.
+# Blueprint de Render para la instancia "Polla Familiar".
+# Usa una base de datos externa de Neon (Render free solo permite una BD
+# gestionada, ya usada por la instancia principal), configurada vía DATABASE_URL.
 # Docs: https://render.com/docs/blueprint-spec
 services:
   - type: web
-    name: pollamundial
+    name: polla-familiar
     runtime: python
     plan: free
-    branch: main
+    branch: polla-familiar
     buildCommand: "bash build.sh"
     startCommand: "gunicorn pollamundial.wsgi:application --bind 0.0.0.0:$PORT"
     envVars:
@@ -13,21 +15,14 @@ services:
         value: "0"
       - key: DJANGO_SECRET_KEY
         generateValue: true
+      # Cadena de conexión de Neon (postgres://...). Se pega en el panel de Render.
       - key: DATABASE_URL
-        fromDatabase:
-          name: pollamundial-db
-          property: connectionString
+        sync: false
       - key: WEB_CONCURRENCY
         value: "4"
       # Superusuario inicial (se crea en el deploy si no existe).
-      # Define el email y la contraseña en el panel de Render.
-      - key: DJANGO_SUPERUSER_EMAIL
+      # Define el usuario y la contraseña en el panel de Render.
+      - key: DJANGO_SUPERUSER_USERNAME
         sync: false
       - key: DJANGO_SUPERUSER_PASSWORD
         sync: false
-
-databases:
-  - name: pollamundial-db
-    plan: free
-    databaseName: pollamundial
-    user: pollamundial

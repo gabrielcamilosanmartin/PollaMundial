@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PollaMundial 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-30 03:11+0000\n"
+"POT-Creation-Date: 2026-07-09 17:28+0000\n"
 "PO-Revision-Date: 2026-06-29 22:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: predictions/templates/predictions/home.html:4
 #: predictions/templates/predictions/home.html:7
-#: templates/dashboard_base.html:18
+#: templates/dashboard_base.html:18 templates/dashboard_base.html:83
 msgid "Matches"
 msgstr "Matches"
 
@@ -48,21 +48,21 @@ msgstr "Stage"
 msgid "Your prediction"
 msgstr "Your prediction"
 
-#: predictions/templates/predictions/home.html:45
+#: predictions/templates/predictions/home.html:57
 msgid "Closed"
 msgstr "Closed"
 
-#: predictions/templates/predictions/home.html:66
+#: predictions/templates/predictions/home.html:67
 msgid "There are no matches yet."
 msgstr "There are no matches yet."
 
-#: predictions/templates/predictions/home.html:79
+#: predictions/templates/predictions/home.html:80
 msgid "Save predictions"
 msgstr "Save predictions"
 
 #: predictions/templates/predictions/my_predictions.html:4
 #: predictions/templates/predictions/my_predictions.html:7
-#: templates/dashboard_base.html:22
+#: templates/dashboard_base.html:22 templates/dashboard_base.html:87
 msgid "My predictions"
 msgstr "My predictions"
 
@@ -81,7 +81,7 @@ msgstr "There are no finished matches yet."
 
 #: predictions/templates/predictions/results.html:4
 #: predictions/templates/predictions/results.html:7
-#: templates/dashboard_base.html:26
+#: templates/dashboard_base.html:26 templates/dashboard_base.html:91
 msgid "Results"
 msgstr "Results"
 
@@ -109,7 +109,7 @@ msgstr "pts"
 msgid "There are no results yet."
 msgstr "There are no results yet."
 
-#: templates/dashboard_base.html:67
+#: templates/dashboard_base.html:64 templates/dashboard_base.html:112
 msgid "Sign out"
 msgstr "Sign out"
 
@@ -134,8 +134,8 @@ msgid "Sign in to continue with your pool."
 msgstr "Sign in to continue with your pool."
 
 #: templates/registration/login.html:78
-msgid "Email"
-msgstr "Email"
+msgid "Username"
+msgstr "Username"
 
 #: templates/registration/login.html:95
 msgid "Password"
@@ -157,6 +157,9 @@ msgstr "Don't have an account?"
 msgid "Sign up"
 msgstr "Sign up"
 
+#~ msgid "Email"
+#~ msgstr "Email"
+
 #~ msgid "Home"
 #~ msgstr "Home"
 
@@ -166,9 +169,6 @@ msgstr "Sign up"
 
 #~ msgid "You have signed in successfully. Your pool will go here."
 #~ msgstr "You have signed in successfully. Your pool will go here."
-
-#~ msgid "Username"
-#~ msgstr "Username"
 
 #~ msgid "your_username"
 #~ msgstr "your_username"

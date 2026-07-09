@@ -6,8 +6,8 @@ from common.forms import TailwindFormMixin
 
 User = get_user_model()
 
-# Campos editables en el CRUD de usuarios (el email es el identificador).
-USER_FIELDS = ("email", "first_name", "last_name", "is_active", "is_staff")
+# Campos editables en el CRUD de usuarios (el username es el identificador).
+USER_FIELDS = ("username", "first_name", "last_name", "email", "is_active", "is_staff")
 
 
 class UserCreateForm(TailwindFormMixin, BaseUserCreationForm):

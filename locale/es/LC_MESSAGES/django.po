@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PollaMundial 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-30 03:11+0000\n"
+"POT-Creation-Date: 2026-07-09 17:28+0000\n"
 "PO-Revision-Date: 2026-06-29 22:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: Español\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: predictions/templates/predictions/home.html:4
 #: predictions/templates/predictions/home.html:7
-#: templates/dashboard_base.html:18
+#: templates/dashboard_base.html:18 templates/dashboard_base.html:83
 msgid "Matches"
 msgstr "Partidos"
 
@@ -48,21 +48,21 @@ msgstr "Etapa"
 msgid "Your prediction"
 msgstr "Tu pronóstico"
 
-#: predictions/templates/predictions/home.html:45
+#: predictions/templates/predictions/home.html:57
 msgid "Closed"
 msgstr "Cerrado"
 
-#: predictions/templates/predictions/home.html:66
+#: predictions/templates/predictions/home.html:67
 msgid "There are no matches yet."
 msgstr "Aún no hay partidos."
 
-#: predictions/templates/predictions/home.html:79
+#: predictions/templates/predictions/home.html:80
 msgid "Save predictions"
 msgstr "Guardar pronósticos"
 
 #: predictions/templates/predictions/my_predictions.html:4
 #: predictions/templates/predictions/my_predictions.html:7
-#: templates/dashboard_base.html:22
+#: templates/dashboard_base.html:22 templates/dashboard_base.html:87
 msgid "My predictions"
 msgstr "Mis predicciones"
 
@@ -81,7 +81,7 @@ msgstr "Aún no hay partidos finalizados."
 
 #: predictions/templates/predictions/results.html:4
 #: predictions/templates/predictions/results.html:7
-#: templates/dashboard_base.html:26
+#: templates/dashboard_base.html:26 templates/dashboard_base.html:91
 msgid "Results"
 msgstr "Resultados"
 
@@ -90,8 +90,8 @@ msgid ""
 "Match results and points per participant (1 point for the winner, 3 for the "
 "exact score)."
 msgstr ""
-"Resultados de los partidos y puntos por participante (1 punto por el ganador, "
-"3 por el marcador exacto)."
+"Resultados de los partidos y puntos por participante (1 punto por el "
+"ganador, 3 por el marcador exacto)."
 
 #: predictions/templates/predictions/results.html:14
 msgid "The results could not be updated from the API."
@@ -109,7 +109,7 @@ msgstr "pts"
 msgid "There are no results yet."
 msgstr "Aún no hay resultados."
 
-#: templates/dashboard_base.html:67
+#: templates/dashboard_base.html:64 templates/dashboard_base.html:112
 msgid "Sign out"
 msgstr "Cerrar sesión"
 
@@ -134,8 +134,8 @@ msgid "Sign in to continue with your pool."
 msgstr "Inicia sesión para continuar con tu polla."
 
 #: templates/registration/login.html:78
-msgid "Email"
-msgstr "Correo electrónico"
+msgid "Username"
+msgstr "Usuario"
 
 #: templates/registration/login.html:95
 msgid "Password"
@@ -157,6 +157,9 @@ msgstr "¿No tienes cuenta?"
 msgid "Sign up"
 msgstr "Regístrate"
 
+#~ msgid "Email"
+#~ msgstr "Correo electrónico"
+
 #~ msgid "Home"
 #~ msgstr "Inicio"
 
@@ -166,9 +169,6 @@ msgstr "Regístrate"
 
 #~ msgid "You have signed in successfully. Your pool will go here."
 #~ msgstr "Has iniciado sesión correctamente. Aquí irá tu polla."
-
-#~ msgid "Username"
-#~ msgstr "Usuario"
 
 #~ msgid "your_username"
 #~ msgstr "tu_usuario"

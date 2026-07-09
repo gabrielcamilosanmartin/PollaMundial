@@ -17,7 +17,7 @@ User = get_user_model()
 
 
 def _participant_name(user):
-    return user.first_name or user.email
+    return user.first_name or user.username
 
 
 class HomeView(LoginRequiredMixin, View):
@@ -89,7 +89,7 @@ class MyPredictionsView(LoginRequiredMixin, TemplateView):
             .select_related("team_1", "team_2")
             .order_by("-date")
         )
-        users = list(User.objects.order_by("first_name", "email"))
+        users = list(User.objects.order_by("first_name", "username"))
         preds = {
             (p.match_id, p.user_id): p
             for p in Prediction.objects.filter(match__in=matches)
@@ -129,7 +129,7 @@ class ResultsView(LoginRequiredMixin, TemplateView):
             .select_related("team_1", "team_2")
             .order_by("-date")
         )
-        users = list(User.objects.order_by("first_name", "email"))
+        users = list(User.objects.order_by("first_name", "username"))
         preds = {
             (p.match_id, p.user_id): p
             for p in Prediction.objects.filter(match__in=matches)
@@ -196,7 +196,7 @@ class PredictionMatchEditView(StaffRequiredMixin, View):
                 "name": _participant_name(u),
                 "prediction": preds.get(u.id),
             }
-            for u in User.objects.order_by("first_name", "email")
+            for u in User.objects.order_by("first_name", "username")
         ]
         return render(request, self.template_name, {"match": match, "rows": rows})
 

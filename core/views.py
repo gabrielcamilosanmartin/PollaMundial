@@ -19,7 +19,7 @@ class UserListView(StaffRequiredMixin, ListView):
     model = User
     template_name = "core/user_list.html"
     context_object_name = "users"
-    ordering = ["email"]
+    ordering = ["username"]
 
 
 class UserCreateView(StaffRequiredMixin, CreateView):
@@ -67,5 +67,5 @@ class UserResetLinkView(StaffRequiredMixin, View):
             "password_reset_confirm", kwargs={"uidb64": uid, "token": token}
         )
         return JsonResponse(
-            {"url": request.build_absolute_uri(path), "email": user.email}
+            {"url": request.build_absolute_uri(path), "email": user.username}
         )
