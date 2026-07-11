@@ -123,7 +123,7 @@ msgstr "Vive el mundial<br>como nunca antes."
 
 #: templates/registration/login.html:38
 msgid "Yenko's got this."
-msgstr "Yenko se la come."
+msgstr "No importa que pase, penal para Messi."
 
 #: templates/registration/login.html:62
 msgid "Welcome back"
