@@ -16,6 +16,11 @@ class MatchListView(StaffRequiredMixin, ListView):
     context_object_name = "matches"
     ordering = ["date"]
 
+    def get_queryset(self):
+        # Evita N+1: trae los equipos en una sola consulta (importante con
+        # bases de datos remotas como Neon).
+        return super().get_queryset().select_related("team_1", "team_2")
+
 
 class MatchCreateView(StaffRequiredMixin, CreateView):
     model = Match
