@@ -103,6 +103,18 @@
         ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
     const open = () => { modal.classList.remove("hidden"); modal.classList.add("flex"); };
     const close = () => { modal.classList.add("hidden"); modal.classList.remove("flex"); };
+    const cbClass = "h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500/40";
+
+    // Mantiene el checkbox "todos" en sintonía con los individuales.
+    function syncSelectAll() {
+        const all = document.getElementById("sync-all");
+        const boxes = document.querySelectorAll(".sync-cb");
+        const checked = document.querySelectorAll(".sync-cb:checked").length;
+        if (all) {
+            all.checked = checked === boxes.length && boxes.length > 0;
+            all.indeterminate = checked > 0 && checked < boxes.length;
+        }
+    }
 
     btn.addEventListener("click", async () => {
         hasNew = false;
@@ -121,20 +133,32 @@
             confirmBtn.disabled = false;
             const rows = data.matches.map((m) =>
                 `<tr class="border-t border-slate-100">
+                    <td class="py-1.5 pl-3 pr-2"><input type="checkbox" class="sync-cb ${cbClass}" value="${esc(m.key)}" checked></td>
                     <td class="py-1.5 pr-3 font-medium text-slate-800">${esc(m.team_1)} vs ${esc(m.team_2)}</td>
                     <td class="py-1.5 pr-3 text-slate-500">${esc(m.stage)}</td>
-                    <td class="py-1.5 text-slate-500">${esc(m.date)}</td>
+                    <td class="py-1.5 pr-3 text-slate-500">${esc(m.date)}</td>
                 </tr>`).join("");
             body.innerHTML =
-                `<p class="mb-3 text-sm text-slate-600">Se agregarán <strong>${data.count}</strong> partidos nuevos:</p>
+                `<p class="mb-3 text-sm text-slate-600">Selecciona los partidos que quieres agregar:</p>
                  <div class="max-h-80 overflow-y-auto rounded-lg border border-slate-200">
                     <table class="w-full text-sm">
                         <thead class="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
-                            <tr><th class="px-3 py-2">Partido</th><th class="px-3 py-2">Etapa</th><th class="px-3 py-2">Fecha</th></tr>
+                            <tr>
+                                <th class="py-2 pl-3 pr-2"><input type="checkbox" id="sync-all" class="${cbClass}" checked></th>
+                                <th class="px-3 py-2">Partido</th>
+                                <th class="px-3 py-2">Etapa</th>
+                                <th class="px-3 py-2">Fecha</th>
+                            </tr>
                         </thead>
-                        <tbody class="px-3">${rows}</tbody>
+                        <tbody>${rows}</tbody>
                     </table>
                  </div>`;
+
+            document.getElementById("sync-all").addEventListener("change", (e) => {
+                document.querySelectorAll(".sync-cb").forEach((cb) => { cb.checked = e.target.checked; });
+            });
+            document.querySelectorAll(".sync-cb").forEach((cb) =>
+                cb.addEventListener("change", syncSelectAll));
         } catch (e) {
             body.innerHTML = `<p class="text-sm text-red-600">${esc(e.message)}</p>`;
         }
@@ -142,15 +166,25 @@
 
     confirmBtn.addEventListener("click", async () => {
         if (!hasNew) return;
+        const keys = Array.from(document.querySelectorAll(".sync-cb:checked")).map((cb) => cb.value);
+        if (keys.length === 0) {
+            alert("Selecciona al menos un partido.");
+            return;
+        }
         confirmBtn.disabled = true;
         confirmBtn.textContent = "Sincronizando…";
         try {
-            const r = await fetch(url, { method: "POST", headers: { "X-CSRFToken": csrftoken } });
+            const r = await fetch(url, {
+                method: "POST",
+                headers: { "X-CSRFToken": csrftoken, "Content-Type": "application/json" },
+                body: JSON.stringify({ keys: keys }),
+            });
             const data = await r.json();
             if (!r.ok) throw new Error(data.error || "Error inesperado");
             window.location.reload();
         } catch (e) {
             body.innerHTML = `<p class="text-sm text-red-600">Error al sincronizar: ${esc(e.message)}</p>`;
+            confirmBtn.disabled = false;
             confirmBtn.textContent = "Aceptar y sincronizar";
         }
     });

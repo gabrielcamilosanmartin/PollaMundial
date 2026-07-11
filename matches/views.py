@@ -1,3 +1,5 @@
+import json
+
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views import View
@@ -8,6 +10,11 @@ from common.mixins import StaffRequiredMixin
 from . import services
 from .forms import MatchCreateForm, MatchUpdateForm
 from .models import Match
+
+
+def _match_key(nuevo):
+    """Identificador estable de un partido nuevo (aún no existe en la BD)."""
+    return f"{nuevo['team_1'].code}|{nuevo['team_2'].code}|{nuevo['date'].isoformat()}"
 
 
 class MatchListView(StaffRequiredMixin, ListView):
@@ -59,6 +66,7 @@ class MatchSyncView(StaffRequiredMixin, View):
                 "count": len(nuevos),
                 "matches": [
                     {
+                        "key": _match_key(n),
                         "team_1": n["team_1"].name,
                         "team_2": n["team_2"].name,
                         "stage": n["stage"],
@@ -72,11 +80,19 @@ class MatchSyncView(StaffRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         try:
+            payload = json.loads(request.body or "{}")
+        except ValueError:
+            payload = {}
+        seleccionados = set(payload.get("keys") or [])
+
+        try:
             nuevos = services.get_new_matches()
-            creados = services.create_matches(nuevos)
         except Exception as exc:  # noqa: BLE001
             return JsonResponse(
                 {"error": f"No se pudo consultar la API: {exc}"}, status=502
             )
 
+        # Solo se crean los partidos cuyo identificador fue seleccionado.
+        elegidos = [n for n in nuevos if _match_key(n) in seleccionados]
+        creados = services.create_matches(elegidos)
         return JsonResponse({"created": creados})
