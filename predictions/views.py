@@ -130,9 +130,10 @@ class ResultsView(LoginRequiredMixin, TemplateView):
             .order_by("-date")
         )
         users = list(User.objects.order_by("first_name", "username"))
+        # select_related("match") evita N+1 al calcular prediction.points.
         preds = {
             (p.match_id, p.user_id): p
-            for p in Prediction.objects.filter(match__in=matches)
+            for p in Prediction.objects.filter(match__in=matches).select_related("match")
         }
 
         totals = {u.id: 0 for u in users}
