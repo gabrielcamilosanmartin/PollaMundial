@@ -53,12 +53,23 @@ def _country_by_code():
     return {country.code: country for country in Country.objects.all()}
 
 
+def _matches_by_key():
+    """Índice de los partidos existentes por (team_1_id, team_2_id, fecha).
+
+    Se carga en una sola consulta para evitar N+1 al comparar con la API.
+    """
+    return {
+        (m.team_1_id, m.team_2_id, m.date): m for m in Match.objects.all()
+    }
+
+
 def get_new_matches():
     """Partidos de la API que aún no están en la BD.
 
     Se omiten los que tengan algún equipo cuyo `code` no exista en Country.
     """
     countries = _country_by_code()
+    existentes = _matches_by_key()
     nuevos = []
     for item in fetch_api_matches():
         team_1 = countries.get(item.get("team1"))
@@ -67,7 +78,7 @@ def get_new_matches():
             continue
 
         fecha = parse_datetime(item.get("date"), item.get("time"))
-        if Match.objects.filter(team_1=team_1, team_2=team_2, date=fecha).exists():
+        if (team_1.id, team_2.id, fecha) in existentes:
             continue
 
         nuevos.append(
@@ -102,7 +113,8 @@ def update_results_from_api():
     team_2. Devuelve cuántos partidos se actualizaron.
     """
     countries = _country_by_code()
-    actualizados = 0
+    existentes = _matches_by_key()
+    por_actualizar = []
     for item in fetch_api_matches():
         score = item.get("score") or {}
         final = score.get("et") or score.get("ft")
@@ -115,9 +127,8 @@ def update_results_from_api():
             continue
 
         fecha = parse_datetime(item.get("date"), item.get("time"))
-        try:
-            match = Match.objects.get(team_1=team_1, team_2=team_2, date=fecha)
-        except Match.DoesNotExist:
+        match = existentes.get((team_1.id, team_2.id, fecha))
+        if match is None:
             continue
 
         goals_1, goals_2 = final[0], final[1]
@@ -138,14 +149,12 @@ def update_results_from_api():
             match.goals_team_2 = goals_2
             match.penalties_team_1 = pen_1
             match.penalties_team_2 = pen_2
-            match.save(
-                update_fields=[
-                    "goals_team_1",
-                    "goals_team_2",
-                    "penalties_team_1",
-                    "penalties_team_2",
-                ]
-            )
-            actualizados += 1
+            por_actualizar.append(match)
 
-    return actualizados
+    if por_actualizar:
+        Match.objects.bulk_update(
+            por_actualizar,
+            ["goals_team_1", "goals_team_2", "penalties_team_1", "penalties_team_2"],
+        )
+
+    return len(por_actualizar)
